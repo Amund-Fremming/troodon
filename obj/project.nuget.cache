@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "DG2GHAJZRvxrmjJkoJXk6NLC0Nk/Kd44lu35e9VCIqBNwNbCwol6rYamQ+ARoEC2VWE1QnD5ONVBt9nrOXEwZg==",
+  "dgSpecHash": "sfF11rNtpi3gRwzKgqnBcsaA1tQVnuqFPWZMk12i3eZcVdFA1GmkwkCcv0gZbY5ue7ggG4iV+ysiGdmPiFM7og==",
   "success": true,
   "projectFilePath": "/home/amund/Documents/Projects/troodon/troodon.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "/home/amund/.nuget/packages/spectre.console/0.49.1/spectre.console.0.49.1.nupkg.sha512"
+  ],
   "logs": []
 }

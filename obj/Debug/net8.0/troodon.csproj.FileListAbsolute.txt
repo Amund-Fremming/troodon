@@ -13,3 +13,6 @@
 /home/amund/Documents/Projects/troodon/obj/Debug/net8.0/troodon.pdb
 /home/amund/Documents/Projects/troodon/obj/Debug/net8.0/troodon.genruntimeconfig.cache
 /home/amund/Documents/Projects/troodon/obj/Debug/net8.0/ref/troodon.dll
+/home/amund/Documents/Projects/troodon/obj/Debug/net8.0/troodon.csproj.AssemblyReference.cache
+/home/amund/Documents/Projects/troodon/bin/Debug/net8.0/Spectre.Console.dll
+/home/amund/Documents/Projects/troodon/obj/Debug/net8.0/troodon.csproj.CopyComplete

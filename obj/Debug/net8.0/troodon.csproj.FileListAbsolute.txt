@@ -1,0 +1,15 @@
+/home/amund/Documents/Projects/troodon/bin/Debug/net8.0/troodon
+/home/amund/Documents/Projects/troodon/bin/Debug/net8.0/troodon.deps.json
+/home/amund/Documents/Projects/troodon/bin/Debug/net8.0/troodon.runtimeconfig.json
+/home/amund/Documents/Projects/troodon/bin/Debug/net8.0/troodon.dll
+/home/amund/Documents/Projects/troodon/bin/Debug/net8.0/troodon.pdb
+/home/amund/Documents/Projects/troodon/obj/Debug/net8.0/troodon.GeneratedMSBuildEditorConfig.editorconfig
+/home/amund/Documents/Projects/troodon/obj/Debug/net8.0/troodon.AssemblyInfoInputs.cache
+/home/amund/Documents/Projects/troodon/obj/Debug/net8.0/troodon.AssemblyInfo.cs
+/home/amund/Documents/Projects/troodon/obj/Debug/net8.0/troodon.csproj.CoreCompileInputs.cache
+/home/amund/Documents/Projects/troodon/obj/Debug/net8.0/troodon.sourcelink.json
+/home/amund/Documents/Projects/troodon/obj/Debug/net8.0/troodon.dll
+/home/amund/Documents/Projects/troodon/obj/Debug/net8.0/refint/troodon.dll
+/home/amund/Documents/Projects/troodon/obj/Debug/net8.0/troodon.pdb
+/home/amund/Documents/Projects/troodon/obj/Debug/net8.0/troodon.genruntimeconfig.cache
+/home/amund/Documents/Projects/troodon/obj/Debug/net8.0/ref/troodon.dll

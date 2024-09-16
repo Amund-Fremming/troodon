@@ -4,6 +4,7 @@
 - [ ] Set up functions for parsing input from command line
 - [ ] Set up functions for creating files in file tree
 - [ ] Set up functions for creating folders in file tree
+- [ ] Set up static funcitons for the classes skeletons
 - [ ] Create the Class engine for holding the data and doing th ebusiness of the program
 - [ ] Create a instanse of the Class engine and run it
 

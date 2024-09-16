@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("troodon")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+88527e2e6ab9dd9edfcb92e79aecd4eb8d92a58e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fd1b7d14690ad310ca9b30ea1f7524abbc3e210d")]
 [assembly: System.Reflection.AssemblyProductAttribute("troodon")]
 [assembly: System.Reflection.AssemblyTitleAttribute("troodon")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

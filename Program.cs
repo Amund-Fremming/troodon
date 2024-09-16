@@ -12,7 +12,9 @@ public class Program
                 var task = ctx.AddTask("Processing...");
                 for (var i = 0; i < 100; i++)
                 {
-                    task.Increment(1);
+                    var r = new Random();
+                    var j = r.NextInt64();
+                    task.Increment(j);
                     Thread.Sleep(50); // Simulate work
                 }
             });

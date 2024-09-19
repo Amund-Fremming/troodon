@@ -1,6 +1,6 @@
 namespace troodon.Cli;
 
-public class TemplateGenerator
+public class Generator
 {
     public static string Controller(string entity, string projectName)
     {
@@ -235,5 +235,15 @@ public class TemplateGenerator
             $"        }}\n" +
             $"    }}\n" +
             $"}}";
+    }
+
+    public static string Interface(string entity, string projectName)
+    {
+        throw new NotImplementedException();
+    }
+
+    public static string Startup(string entity, string projectName)
+    {
+        throw new NotImplementedException();
     }
 }

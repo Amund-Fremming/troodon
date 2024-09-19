@@ -1,4 +1,5 @@
-﻿using Spectre.Console;
+﻿using troodon.Core;
+using Spectre.Console;
 
 namespace troodon;
 
@@ -6,15 +7,19 @@ public class Program
 {
     static void Main(String[] args)
     {
+        Orchestrator orchestrator = new Orchestrator();
+        orchestrator.Build(Option.FeatureFolder);
+
+        return;
+
+
         AnsiConsole.Progress()
             .Start(ctx =>
             {
                 var task = ctx.AddTask("Processing...");
                 for (var i = 0; i < 100; i++)
                 {
-                    var r = new Random();
-                    var j = r.NextInt64();
-                    task.Increment(j);
+                    task.Increment(1);
                     Thread.Sleep(50); // Simulate work
                 }
             });

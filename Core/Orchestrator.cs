@@ -28,11 +28,15 @@ public class Orchestrator
                     foreach (var entity in entities)
                     {
                         // Generate the folders and so on here
-                        task.Increment(partOfHundred);
                         Thread.Sleep(500);
-                        task = ctx.AddTask("Generating");
+                        task.Increment(partOfHundred);
                     }
                 });
+
+            Crawler crawler = new Crawler();
+            crawler.MoveOut();
+            crawler.MoveOut();
+            crawler.MoveIn("troodon");
         }
         catch (Exception)
         {

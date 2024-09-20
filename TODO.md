@@ -1,5 +1,6 @@
 # TODO
 
+- [ ] Add func for generating ef core basic setup and db registration
 - [ ] Switch Process to UI where i can update whats being generated
 - [ ] Implement functions
 - [ ] Test

@@ -1,12 +1,12 @@
 # TODO
 
-- [ ] Add func for generating ef core basic setup and db registration
 - [ ] Switch Process to UI where i can update whats being generated
 - [ ] Implement functions
 - [ ] Test
 - [ ] Add possibility for OAuth 2.0
 - [ ] Add possibility for Cloudflare integration?
 - [ ] Add tree print of generated code ??
+- [ ] If exception, stop application
 
 ## UI
 

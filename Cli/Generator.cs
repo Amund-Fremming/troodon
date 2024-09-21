@@ -246,4 +246,9 @@ public class Generator
     {
         throw new NotImplementedException();
     }
+
+    public static string EfCore(string entity, string projectName)
+    {
+        throw new NotImplementedException();
+    }
 }

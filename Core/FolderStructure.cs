@@ -1,6 +1,6 @@
 namespace troodon.Core;
 
-public enum Option
+public enum FolderStructure
 {
     FeatureFolder,
     Mvc

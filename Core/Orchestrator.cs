@@ -5,50 +5,50 @@ namespace troodon.Core;
 
 public class Orchestrator
 {
-    private IList<string> entities;
+    private string? ProjectName;
+    private int NumberOfEntities;
+    private IList<string>? Entities;
+    private FolderStructure FolderStructure;
 
     public Orchestrator()
     {
-        entities = new List<string>();
+        GetProjectData();
     }
 
-    public void Build(Option option)
+    private void GetProjectData()
     {
         try
         {
-            int numberOfEntries = Parser.GetNumberOfEntities();
-            entities = Parser.GetEntityNames(numberOfEntries);
+            ProjectName = Parser.GetProjectName();
+            NumberOfEntities = Parser.GetNumberOfEntities();
+            Entities = Parser.GetEntityNames(NumberOfEntities);
+        }
+        catch (Exception)
+        {
+            AnsiConsole.Markup("[bold red]Error[/][red]. Something went wrong, Try again. [/]");
+        }
+    }
 
-            double partOfHundred = 100 / entities.Count();
+    public void Build()
+    {
+        try
+        {
+            double partOfHundred = Math.Floor(100.0 / Entities!.Count());
+
+            Func<bool> BuildFunction = FolderStructure == FolderStructure.Mvc ? FeatureArchitecture : MvcArchitecture;
 
             AnsiConsole.Progress()
                 .Start(ctx =>
                 {
                     var task = ctx.AddTask("Processing...");
-                    foreach (var entity in entities)
+                    foreach (var entity in Entities!)
                     {
-                        // Generate the folders and so on here
-                        Thread.Sleep(500);
                         task.Increment(partOfHundred);
                     }
+
+                    double restOfDivide = 100 % Entities!.Count();
+                    task.Increment(restOfDivide);
                 });
-
-            Crawler crawler = new Crawler();
-            crawler.MoveOut();
-            crawler.MoveOut();
-            crawler.MoveIn("troodon");
-        }
-        catch (Exception)
-        {
-            AnsiConsole.Markup("[bold red]Error[/][red]. Something went wrong, Try again. [/]");
-        }
-
-    }
-
-    private void FeatureArchitecture()
-    {
-        try
-        {
         }
         catch (Exception)
         {
@@ -56,14 +56,29 @@ public class Orchestrator
         }
     }
 
-    private void MvcArchitecture()
+    private bool FeatureArchitecture()
     {
         try
         {
+            return false;
         }
         catch (Exception)
         {
             AnsiConsole.Markup("[bold red]Error[/][red]. Something went wrong, Try again. [/]");
+            return false;
+        }
+    }
+
+    private bool MvcArchitecture()
+    {
+        try
+        {
+            return false;
+        }
+        catch (Exception)
+        {
+            AnsiConsole.Markup("[bold red]Error[/][red]. Something went wrong, Try again. [/]");
+            return false;
         }
     }
 }

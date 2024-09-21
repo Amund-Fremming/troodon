@@ -1,5 +1,4 @@
 using Spectre.Console;
-using System.IO;
 
 namespace troodon.Cli;
 
@@ -44,6 +43,8 @@ public class Crawler
     {
         try
         {
+            Directory.CreateDirectory(name);
+            AnsiConsole.MarkupLine($"[yellow]Created dir at {_currentDir} : {name}[/]");
         }
         catch (Exception)
         {
@@ -55,6 +56,8 @@ public class Crawler
     {
         try
         {
+            File.Create(name);
+            AnsiConsole.MarkupLine($"[yellow]Created file at {_currentDir} : {name}[/]");
         }
         catch (Exception)
         {
@@ -62,10 +65,15 @@ public class Crawler
         }
     }
 
-    public void WriteToFile(string content)
+    public void WriteToFile(string file, string content)
     {
         try
         {
+            IList<string> files = Directory.GetFiles(_currentDir);
+            files.FirstOrDefault(_ => _ == file);
+
+            File.WriteAllText(Path.Combine(_currentDir, file), content);
+            AnsiConsole.MarkupLine($"[yellow]Wrote to file at {_currentDir} : {file}[/]");
         }
         catch (Exception)
         {

@@ -4,6 +4,19 @@ namespace troodon.Cli;
 
 public static class Parser
 {
+    public static string GetProjectName()
+    {
+        try
+        {
+            return AnsiConsole.Ask<string>("Whats the project [blue bold]name[/]?");
+        }
+        catch (Exception)
+        {
+            AnsiConsole.Markup("[bold red]Error[/][red]. Something went wrong, Try again. [/]");
+            return "";
+        }
+    }
+
     public static int GetNumberOfEntities()
     {
         try

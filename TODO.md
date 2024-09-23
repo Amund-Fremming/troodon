@@ -1,6 +1,6 @@
 # TODO
 
-- [ ] Switch Process to UI where i can update whats being generated
+- [ ] Add Task.WhenAll for creating folders async, and async files inside the folder
 - [ ] Implement functions
 - [ ] Test
 - [ ] Add possibility for OAuth 2.0

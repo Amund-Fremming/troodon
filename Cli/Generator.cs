@@ -2,6 +2,11 @@ namespace troodon.Cli;
 
 public class Generator
 {
+    public static string Model(string entity, string projectName)
+    {
+        throw new NotImplementedException();
+    }
+
     public static string Controller(string entity, string projectName)
     {
         return $"namespace {projectName}.Features.{entity}; \n" +

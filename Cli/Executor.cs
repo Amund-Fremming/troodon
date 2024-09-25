@@ -5,21 +5,27 @@ namespace troodon.Cli;
 
 public static class Executor
 {
+    private static void RunCommand(string command)
+    {
+        using (Process process = new Process())
+        {
+            process.StartInfo.FileName = "dotnet";
+            process.StartInfo.Arguments = command;
+
+            process.StartInfo.UseShellExecute = false;
+            process.StartInfo.RedirectStandardOutput = true;
+
+            process.Start();
+            process.WaitForExit();
+        }
+    }
+
     public static void BuildDotnetBase(string projectName)
     {
         try
         {
-            using (Process process = new Process())
-            {
-                process.StartInfo.FileName = "dotnet";
-                process.StartInfo.Arguments = $"new webapi --name {projectName}";
-
-                process.StartInfo.UseShellExecute = false;
-                process.StartInfo.RedirectStandardOutput = true;
-
-                process.Start();
-                process.WaitForExit();
-            }
+            string command = $"new webapi --name {projectName}";
+            RunCommand(command);
         }
         catch (Exception)
         {
@@ -31,21 +37,14 @@ public static class Executor
     {
         try
         {
-            using (Process process = new Process())
-            {
-                process.StartInfo.FileName = "dotnet";
-                // Add command for downloading EF Core
-                process.StartInfo.Arguments = "";
-                // dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL
-                // dotnet add package Microsoft.EntityFrameworkCore.Design
-                // dotnet add package Swashbuckle.AspNetCore
+            string commandOne = "dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL";
+            string commandTwo = "dotnet add package Microsoft.EntityFrameworkCore.Design";
+            string commandThree = "dotnet add package Swashbuckle.AspNetCore";
 
-                process.StartInfo.UseShellExecute = false;
-                process.StartInfo.RedirectStandardOutput = true;
+            RunCommand(commandOne);
+            RunCommand(commandTwo);
+            RunCommand(commandThree);
 
-                process.Start();
-                process.WaitForExit();
-            }
         }
         catch (Exception)
         {

@@ -1,5 +1,6 @@
 # TODO
 
+- [ ] Add Guid to all entity properties for crud operations
 - [ ] Switch Process to UI where i can update whats being generated
 - [ ] Implement functions
 - [ ] Test

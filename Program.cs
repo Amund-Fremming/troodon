@@ -5,10 +5,9 @@ namespace troodon;
 
 public class Program
 {
-    static void Main(String[] args)
+    static async Task Main(String[] args)
     {
         Orchestrator orchestrator = new Orchestrator();
-
-        Executor.BuildDotnetBase("Test");
+        await orchestrator.Build();
     }
 }

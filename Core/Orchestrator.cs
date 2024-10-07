@@ -26,64 +26,52 @@ public class Orchestrator
             NumberOfEntities = Parser.GetNumberOfEntities();
             Entities = Parser.GetEntityNames(NumberOfEntities);
         }
-        catch (Exception)
+        catch (Exception e)
         {
-            AnsiConsole.Markup("[bold red]Error[/][red]. Something went wrong, Try again. [/]");
+            throw new Exception("GetProjectData: " + e.Message);
         }
     }
 
-    public async Task Build()
+    public void Build()
     {
-        Crawler.MoveOut();
         Executor.BuildDotnetBase(ProjectName!);
-        Crawler.MoveIn("troodon");
 
         if (FolderStructure == FolderStructure.Feature)
-            await BuildFeature();
+        {
+            BuildFeatureFolder();
+            BuildFeature();
+        }
 
         if (FolderStructure == FolderStructure.Mvc)
-            await BuildMvc();
+        {
+            BuildMvcFolders();
+            // BuildMvc();
+        }
     }
 
-    private async Task BuildFeature()
+    private void BuildFeature()
     {
         try
         {
-            double partOfHundred = Math.Floor(100.0 / Entities!.Count());
-            IList<Task> tasks = new List<Task>();
-
-            AnsiConsole.Progress()
-                .Start(ctx =>
-                {
-                    var task = ctx.AddTask("Processing...");
-                    foreach (var entity in Entities!)
-                    {
-                        task.Increment(partOfHundred);
-
-                        // Task<bool> entityTask = FeatureArchitecture(entity);
-                        // tasks.Add(entityTask);
-                    }
-
-                    double restOfDivide = 100 % Entities!.Count();
-                    task.Increment(restOfDivide);
-                });
-
-            await Task.WhenAll(tasks);
+            foreach (var entity in Entities!)
+            {
+                FeatureArchitecture(entity);
+            }
         }
-        catch (Exception)
+        catch (Exception e)
         {
-            AnsiConsole.Markup("[bold red]Error[/][red]. Something went wrong, Try again. [/]");
+            throw new Exception("BuildFeature: " + e.Message);
         }
     }
 
-    private async Task BuildMvc()
+    private void BuildMvc()
     {
         try
         {
             // Build project and dependecies
 
             double partOfHundred = Math.Floor(100.0 / Entities!.Count());
-            IList<Task> tasks = new List<Task>();
+            // IList<Task> tasks = new List<Task>();
 
             AnsiConsole.Progress()
                 .Start(ctx =>
@@ -94,7 +82,7 @@ public class Orchestrator
                         task.Increment(partOfHundred);
                         // Opprett task
                         // Putt i Task array
-                        // Task<bool> entityTask = MvcArchitecture(entity);
+                        // Task entityTask = MvcArchitecture(entity);
                         // tasks.Add(entityTask);
                     }
 
@@ -103,20 +91,20 @@ public class Orchestrator
                 });
 
             // Kjør alle tasks async
-            await Task.WhenAll(tasks);
+            // await Task.WhenAll(tasks);
         }
-        catch (Exception)
+        catch (Exception e)
         {
-            AnsiConsole.Markup("[bold red]Error[/][red]. Something went wrong, Try again. [/]");
+            throw new Exception("BuildMvc: " + e.Message);
         }
     }
 
-    private async Task FeatureArchitecture(string entity)
+    private void FeatureArchitecture(string entity)
     {
         try
         {
-            // Build all files for this entity
             Crawler.CreateDir(entity);
+            Crawler.MoveIn(entity);
 
             string entitySkeleton = Generator.Model(entity, ProjectName!);
             Crawler.CreateFile(entity);
@@ -141,10 +129,12 @@ public class Orchestrator
             string repositorySkeleton = Generator.Repository(entity, ProjectName!);
             Crawler.CreateFile(repository);
             Crawler.WriteToFile(service, serviceSkeleton);
+
+            Crawler.MoveOut();
         }
-        catch (Exception)
+        catch (Exception e)
         {
-            AnsiConsole.Markup("[bold red]Error[/][red]. Something went wrong, Try again. [/]");
+            throw new Exception("FeatureArchitecture: " + e.Message);
         }
     }
 
@@ -154,9 +144,9 @@ public class Orchestrator
         {
             // Build files for one entity in respective folders
         }
-        catch (Exception)
+        catch (Exception e)
         {
-            AnsiConsole.Markup("[bold red]Error[/][red]. Something went wrong, Try again. [/]");
+            throw new Exception("MvcArchitecture: " + e.Message);
         }
     }
 
@@ -164,12 +154,13 @@ public class Orchestrator
     {
         try
         {
-            // Create
-            // Move in
+            Crawler.MoveIn(ProjectName!);
+            Crawler.CreateDir("Features");
+            Crawler.MoveIn("Features");
         }
-        catch (Exception)
+        catch (Exception e)
         {
-            AnsiConsole.Markup("[bold red]Error[/][red]. Something went wrong, Try again. [/]");
+            throw new Exception("BuildFeatureFolder: " + e.Message);
         }
     }
 
@@ -180,9 +171,9 @@ public class Orchestrator
             // Create
             // Move in
         }
-        catch (Exception)
+        catch (Exception e)
         {
-            AnsiConsole.Markup("[bold red]Error[/][red]. Something went wrong, Try again. [/]");
+            throw new Exception("FeatureArchitecture: " + e.Message);
         }
     }
 
@@ -193,9 +184,9 @@ public class Orchestrator
             // Create dotnet project
             // Install folders
         }
-        catch (Exception)
+        catch (Exception e)
         {
-            AnsiConsole.Markup("[bold red]Error[/][red]. Something went wrong, Try again. [/]");
+            throw new Exception("BuildProjectFilesAndDependencies: " + e.Message);
         }
     }
 }

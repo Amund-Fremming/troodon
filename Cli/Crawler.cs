@@ -16,12 +16,20 @@ public class Crawler
     {
         try
         {
-            CurrentDir = Path.Combine(CurrentDir, dir);
-            AnsiConsole.Markup($"[yellow]Current dir: [/]{CurrentDir}");
+            var newDir = Path.Combine(CurrentDir, dir);
+            if (Directory.Exists(newDir))
+            {
+                CurrentDir = newDir;
+                AnsiConsole.MarkupLine($"[yellow]Moved in. Current dir: [/]{CurrentDir}");
+            }
+            else
+            {
+                AnsiConsole.MarkupLine($"[red]Directory '{newDir}' does not exist.[/]");
+            }
         }
-        catch (Exception)
+        catch (Exception e)
         {
-            AnsiConsole.MarkupLine($"[yellow]Current dir: [/]{CurrentDir}");
+            throw new Exception("MoveIn: " + e.Message);
         }
     }
 
@@ -29,13 +37,20 @@ public class Crawler
     {
         try
         {
-            string parentDirectory = Directory.GetParent(CurrentDir)?.FullName!;
-            CurrentDir = parentDirectory;
-            AnsiConsole.MarkupLine($"[yellow]Current dir: [/]{CurrentDir}");
+            string? parentDirectory = Directory.GetParent(CurrentDir)?.FullName;
+            if (parentDirectory != null)
+            {
+                CurrentDir = parentDirectory;
+                AnsiConsole.MarkupLine($"[yellow]Moved out. Current dir: [/]{CurrentDir}");
+            }
+            else
+            {
+                AnsiConsole.MarkupLine($"[red]Already at the root directory, can't move out further.[/]");
+            }
         }
-        catch (Exception)
+        catch (Exception e)
         {
-            AnsiConsole.Markup("[bold red]Error[/][red]. Something went wrong, Try again. [/]");
+            throw new Exception("MoveOut: " + e.Message);
         }
     }
 
@@ -43,12 +58,13 @@ public class Crawler
     {
         try
         {
-            Directory.CreateDirectory(name);
-            AnsiConsole.MarkupLine($"[yellow]Created dir at {CurrentDir} : {name}[/]");
+            var newDir = Path.Combine(CurrentDir, name);
+            Directory.CreateDirectory(newDir);
+            AnsiConsole.MarkupLine($"[yellow]Created dir at {newDir}[/]");
         }
-        catch (Exception)
+        catch (Exception e)
         {
-            AnsiConsole.Markup("[bold red]Error[/][red]. Something went wrong, Try again. [/]");
+            throw new Exception("CreateDir: " + e.Message);
         }
     }
 
@@ -56,12 +72,13 @@ public class Crawler
     {
         try
         {
-            File.Create(name);
-            AnsiConsole.MarkupLine($"[yellow]Created file at {CurrentDir} : {name}[/]");
+            var newFilePath = Path.Combine(CurrentDir, name);
+            File.Create(newFilePath).Dispose();
+            AnsiConsole.MarkupLine($"[yellow]Created file at {newFilePath}[/]");
         }
-        catch (Exception)
+        catch (Exception e)
         {
-            AnsiConsole.Markup("[bold red]Error[/][red]. Something went wrong, Try again. [/]");
+            throw new Exception("CreateFile: " + e.Message);
         }
     }
 
@@ -69,15 +86,13 @@ public class Crawler
     {
         try
         {
-            IList<string> files = Directory.GetFiles(CurrentDir);
-            files.FirstOrDefault(_ => _ == file);
-
-            File.WriteAllText(Path.Combine(CurrentDir, file), content);
-            AnsiConsole.MarkupLine($"[yellow]Wrote to file at {CurrentDir} : {file}[/]");
+            var filePath = Path.Combine(CurrentDir, file);
+            File.WriteAllText(filePath, content);
+            AnsiConsole.MarkupLine($"[yellow]Wrote to file at {filePath}[/]");
         }
-        catch (Exception)
+        catch (Exception e)
         {
-            AnsiConsole.Markup("[bold red]Error[/][red]. Something went wrong, Try again. [/]");
+            throw new Exception("WriteToFile: " + e.Message);
         }
     }
 }

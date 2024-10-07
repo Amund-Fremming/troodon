@@ -4,7 +4,25 @@ public class Generator
 {
     public static string Model(string entity, string projectName)
     {
-        throw new NotImplementedException();
+        return $@"
+            using System;
+
+            namespace troodon.Cli
+            {{
+                public class {entity}
+                {{
+                    public Guid Id {{ get; set; }}
+
+                    public {entity}()
+                    {{
+                    }}
+
+                    public {entity}()
+                    {{
+                        Id = Guid.NewGuid();
+                    }}
+                }}
+            }}";
     }
 
     public static string Controller(string entity, string projectName)

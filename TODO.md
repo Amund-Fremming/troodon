@@ -1,10 +1,11 @@
 # TODO
 
-- [ ] Add Guid to all entity properties for crud operations
-- [ ] Switch Process to UI where i can update whats being generated
-- [ ] Implement functions
-- [ ] Test
-- [ ] Add possibility for OAuth 2.0
+- [ ] Implement Generator method for Service Interface
+- [ ] Implement Generator method for Repository Interface
+- [ ] Edit the FeatureArchitecture to use Interfaces from classes under
+- [ ] Edit FeatureArchitecture to generate Interfaces for both Service and Repository
+- [ ] Rewrite the code to either: Move the created project out one folder, or, rewrite so its creater there
+
 - [ ] Add possibility for Cloudflare integration?
 - [ ] Add tree print of generated code ??
 - [ ] If exception, stop application

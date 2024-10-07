@@ -27,9 +27,9 @@ public static class Executor
             string command = $"new webapi --name {projectName}";
             RunCommand(command);
         }
-        catch (Exception)
+        catch (Exception e)
         {
-            AnsiConsole.Markup("[bold red]Error[/][red]. Something went wrong, Try again. [/]");
+            throw new Exception("BuildDotnetBase: " + e.Message);
         }
     }
 
@@ -46,9 +46,9 @@ public static class Executor
             RunCommand(commandThree);
 
         }
-        catch (Exception)
+        catch (Exception e)
         {
-            AnsiConsole.Markup("[bold red]Error[/][red]. Something went wrong, Try again. [/]");
+            throw new Exception("FetchNuGets: " + e.Message);
         }
     }
 }

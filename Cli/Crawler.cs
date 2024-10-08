@@ -72,6 +72,7 @@ public class Crawler
     {
         try
         {
+            name = name + ".cs";
             var newFilePath = Path.Combine(CurrentDir, name);
             File.Create(newFilePath).Dispose();
             AnsiConsole.MarkupLine($"[yellow]Created file at {newFilePath}[/]");
@@ -86,6 +87,7 @@ public class Crawler
     {
         try
         {
+            file = file + ".cs";
             var filePath = Path.Combine(CurrentDir, file);
             File.WriteAllText(filePath, content);
             AnsiConsole.MarkupLine($"[yellow]Wrote to file at {filePath}[/]");

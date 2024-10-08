@@ -115,10 +115,15 @@ public class Orchestrator
             Crawler.CreateFile(controller);
             Crawler.WriteToFile(controller, controllerSkeleton);
 
-            string interf = $"I{entity}";
-            string interfaceSkeleton = Generator.Interface(entity, ProjectName!);
-            Crawler.CreateFile(interf);
-            Crawler.WriteToFile(interf, interfaceSkeleton!);
+            string serviceInterface = $"I{entity}";
+            string iServiceSkeleton = Generator.Interface(entity, ProjectName!, "service");
+            Crawler.CreateFile(serviceInterface);
+            Crawler.WriteToFile(serviceInterface, iServiceSkeleton!);
+
+            string repositoryInterface = $"I{entity}";
+            string iRepoSkeleton = Generator.Interface(entity, ProjectName!, "repository");
+            Crawler.CreateFile(repositoryInterface);
+            Crawler.WriteToFile(repositoryInterface, iRepoSkeleton!);
 
             string service = $"{entity}Service";
             string serviceSkeleton = Generator.Service(entity, ProjectName!);

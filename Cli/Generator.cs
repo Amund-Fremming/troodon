@@ -15,10 +15,6 @@ public class Generator
 
                     public {entity}()
                     {{
-                    }}
-
-                    public {entity}()
-                    {{
                         Id = Guid.NewGuid();
                     }}
                 }}
@@ -27,85 +23,84 @@ public class Generator
 
     public static string Controller(string entity, string projectName)
     {
-        return $"namespace {projectName}.Features.{entity}; \n" +
+        return $"using Microsoft.AspNetCore.Mvc; \n\n" +
+            $"namespace {projectName}.Features.{entity}; \n" +
+            $"\n" +
+            $"public class {entity}Controller : ControllerBase\n" +
             $"{{\n" +
-            $"    public class {entity}Controller : ControllerBase\n" +
+            $"    private readonly I{entity}Service _{entity.ToLower()}Service;\n\n" +
+            $"    public {entity}Controller(I{entity}Service {entity.ToLower()}Service)\n" +
             $"    {{\n" +
-            $"        private readonly I{entity}Service _{entity.ToLower()}Service;\n\n" +
-            $"        public {entity}Controller(I{entity}Service {entity.ToLower()}Service)\n" +
-            $"        {{\n" +
-            $"            _{entity.ToLower()}Service = {entity.ToLower()}Service;\n" +
-            $"        }}\n\n" +
+            $"        _{entity.ToLower()}Service = {entity.ToLower()}Service;\n" +
+            $"    }}\n\n" +
 
             // Create
-            $"        [HttpPost]\n" +
-            $"        public async Task<IActionResult> Create([FromBody] {entity} {entity.ToLower()})\n" +
+            $"    [HttpPost]\n" +
+            $"    public async Task<IActionResult> Create([FromBody] {entity} {entity.ToLower()})\n" +
+            $"    {{\n" +
+            $"        try\n" +
             $"        {{\n" +
-            $"            try\n" +
-            $"            {{\n" +
-            $"                await _{entity.ToLower()}Service.CreateAsync({entity.ToLower()});\n" +
-            $"                return Ok();\n" +
-            $"            }}\n" +
-            $"            catch (Exception e)\n" +
-            $"            {{\n" +
-            $"                return StatusCode(500, \"Internal server error occurred.\");\n" +
-            $"            }}\n" +
-            $"        }}\n\n" +
+            $"            await _{entity.ToLower()}Service.CreateAsync({entity.ToLower()});\n" +
+            $"            return Ok();\n" +
+            $"        }}\n" +
+            $"       catch (Exception)\n" +
+            $"       {{\n" +
+            $"            return StatusCode(500, \"Internal server error occurred.\");\n" +
+            $"        }}\n" +
+            $"    }}\n\n" +
 
             // Read
-            $"        [HttpGet(\"{{id}}\")] \n" +
-            $"        public async Task<IActionResult> GetById(int id)\n" +
+            $"    [HttpGet(\"{{id}}\")] \n" +
+            $"    public async Task<IActionResult> GetById(int id)\n" +
+            $"    {{\n" +
+            $"        try\n" +
             $"        {{\n" +
-            $"            try\n" +
-            $"            {{\n" +
-            $"                var result = await _{entity.ToLower()}Service.GetByIdAsync(id);\n" +
-            $"                if (result == null) return NotFound();\n" +
-            $"                return Ok(result);\n" +
-            $"            }}\n" +
-            $"            catch (Exception e)\n" +
-            $"            {{\n" +
-            $"                return StatusCode(500, \"Internal server error occurred.\");\n" +
-            $"            }}\n" +
-            $"        }}\n\n" +
+            $"            var result = await _{entity.ToLower()}Service.GetByIdAsync(id);\n" +
+            $"            if (result == null) return NotFound();\n\n" +
+            $"            return Ok(result);\n" +
+            $"        }}\n" +
+            $"        catch (Exception)\n" +
+            $"        {{\n" +
+            $"            return StatusCode(500, \"Internal server error occurred.\");\n" +
+            $"        }}\n" +
+            $"    }}\n\n" +
 
             // Update
-            $"        [HttpPut(\"{{id}}\")] \n" +
-            $"        public async Task<IActionResult> Update(int id, [FromBody] {entity} {entity.ToLower()})\n" +
+            $"    [HttpPut(\"{{id}}\")] \n" +
+            $"    public async Task<IActionResult> Update(int id, [FromBody] {entity} {entity.ToLower()})\n" +
+            $"    {{\n" +
+            $"        try\n" +
             $"        {{\n" +
-            $"            try\n" +
-            $"            {{\n" +
-            $"                if (id != {entity.ToLower()}.Id) return BadRequest();\n" +
-            $"                await _{entity.ToLower()}Service.UpdateAsync(id, {entity.ToLower()});\n" +
-            $"                return NoContent();\n" +
-            $"            }}\n" +
-            $"            catch (Exception e)\n" +
-            $"            {{\n" +
-            $"                return StatusCode(500, \"Internal server error occurred.\");\n" +
-            $"            }}\n" +
-            $"        }}\n\n" +
+            $"            if (id != {entity.ToLower()}.Id) return BadRequest();\n" +
+            $"            await _{entity.ToLower()}Service.UpdateAsync(id, {entity.ToLower()});\n" +
+            $"            return NoContent();\n" +
+            $"        }}\n" +
+            $"        catch (Exception)\n" +
+            $"        {{\n" +
+            $"            return StatusCode(500, \"Internal server error occurred.\");\n" +
+            $"        }}\n" +
+            $"    }}\n\n" +
 
             // Delete
-            $"        [HttpDelete(\"{{id}}\")] \n" +
-            $"        public async Task<IActionResult> Delete(int id)\n" +
+            $"    [HttpDelete(\"{{id}}\")] \n" +
+            $"    public async Task<IActionResult> Delete(int id)\n" +
+            $"    {{\n" +
+            $"        try\n" +
             $"        {{\n" +
-            $"            try\n" +
-            $"            {{\n" +
-            $"                await _{entity.ToLower()}Service.DeleteAsync(id);\n" +
-            $"                return NoContent();\n" +
-            $"            }}\n" +
-            $"            catch (Exception e)\n" +
-            $"            {{\n" +
-            $"                return StatusCode(500, \"Internal server error occurred.\");\n" +
-            $"            }}\n" +
+            $"            await _{entity.ToLower()}Service.DeleteAsync(id);\n" +
+            $"            return NoContent();\n" +
+            $"        }}\n" +
+            $"        catch (Exception)\n" +
+            $"        {{\n" +
+            $"            return StatusCode(500, \"Internal server error occurred.\");\n" +
             $"        }}\n" +
             $"    }}\n" +
-            $"}}";
+            $"}}\n";
     }
 
     public static string Service(string entity, string projectName)
     {
-        return $"namespace {projectName}.Features.{entity}; \n" +
-            $"{{\n" +
+        return $"namespace {projectName}.Features.{entity}; \n\n" +
             $"    public class {entity}Service : I{entity}Service\n" +
             $"    {{\n" +
             $"        private readonly I{entity}Repository _{entity.ToLower()}Repository;\n\n" +
@@ -175,14 +170,12 @@ public class Generator
             $"                throw new Exception(\"An error occurred while deleting the {entity.ToLower()}\", ex);\n" +
             $"            }}\n" +
             $"        }}\n" +
-            $"    }}\n" +
-            $"}}";
+            $"    }}\n";
     }
 
     public static string Repository(string entity, string projectName)
     {
-        return $"namespace {projectName}.Features.{entity}; \n" +
-            $"{{\n" +
+        return $"namespace {projectName}.Features.{entity}; \n\n" +
             $"    public class {entity}Repository : I{entity}Repository\n" +
             $"    {{\n" +
             $"        private readonly AppDbContext _context;\n\n" +
@@ -256,13 +249,28 @@ public class Generator
             $"                throw new Exception(\"An error occurred while deleting the {entity.ToLower()} from the database\", ex);\n" +
             $"            }}\n" +
             $"        }}\n" +
-            $"    }}\n" +
-            $"}}";
+            $"    }}\n";
     }
 
-    public static string Interface(string entity, string projectName)
+    public static string Interface(string entity, string projectName, string type)
     {
-        throw new NotImplementedException();
+        var interfaceName = type.Equals("service") ? $"{entity}Service" : $"{entity}Repository";
+
+        return $"namespace {projectName}.Features.{entity};\n\n" +
+               $"public interface I{interfaceName}\n" +
+               $"{{\n" +
+               $"    // Create\n" +
+               $"    Task<int> CreateAsync({entity} {entity.ToLower()});\n\n" +
+
+               $"    // Read\n" +
+               $"    Task<{entity}> GetByIdAsync(int id);\n\n" +
+
+               $"    // Update\n" +
+               $"    Task UpdateAsync(int id, {entity} {entity.ToLower()});\n\n" +
+
+               $"    // Delete\n" +
+               $"    Task DeleteAsync(int id);\n" +
+               $"}}\n";
     }
 
     public static string Startup(string entity, string projectName)

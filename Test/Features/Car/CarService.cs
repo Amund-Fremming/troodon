@@ -1,69 +1,69 @@
-namespace Test.Features.Car;
+namespace Test.Features.Car; 
 
-public class CarService : ICarService
-{
-    private readonly ICarRepository _carRepository;
-
-    public CarService(ICarRepository carRepository)
+    public class CarService : ICarService
     {
-        _carRepository = carRepository;
-    }
+        private readonly ICarRepository _carRepository;
 
-    public async Task<int> CreateAsync(Car car)
-    {
-        try
+        public CarService(ICarRepository carRepository)
         {
-            return await _carRepository.CreateAsync(car);
+            _carRepository = carRepository;
         }
-        catch (Exception ex)
-        {
-            throw new Exception("An error occurred while creating the car", ex);
-        }
-    }
 
-    public async Task<Car> GetByIdAsync(int id)
-    {
-        try
+        public async Task<int> CreateAsync(Car car)
         {
-            return await _carRepository.GetByIdAsync(id);
-        }
-        catch (Exception ex)
-        {
-            throw new Exception("An error occurred while retrieving the car", ex);
-        }
-    }
-
-    public async Task UpdateAsync(int id, Car car)
-    {
-        try
-        {
-            var existingCar = await _carRepository.GetByIdAsync(id);
-            if (existingCar == null)
+            try
             {
-                throw new KeyNotFoundException("Car not found");
+                return await _carRepository.CreateAsync(car);
             }
-            await _carRepository.UpdateAsync(id, car);
-        }
-        catch (Exception ex)
-        {
-            throw new Exception("An error occurred while updating the car", ex);
-        }
-    }
-
-    public async Task DeleteAsync(int id)
-    {
-        try
-        {
-            var existingCar = await _carRepository.GetByIdAsync(id);
-            if (existingCar == null)
+            catch (Exception ex)
             {
-                throw new KeyNotFoundException("Car not found");
+                throw new Exception("An error occurred while creating the car", ex);
             }
-            await _carRepository.DeleteAsync(id);
         }
-        catch (Exception ex)
+
+        public async Task<Car> GetByIdAsync(int id)
         {
-            throw new Exception("An error occurred while deleting the car", ex);
+            try
+            {
+                return await _carRepository.GetByIdAsync(id);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while retrieving the car", ex);
+            }
+        }
+
+        public async Task UpdateAsync(int id, Car car)
+        {
+            try
+            {
+                var existingCar = await _carRepository.GetByIdAsync(id);
+                if (existingCar == null)
+                {
+                    throw new KeyNotFoundException("Car not found");
+                }
+                await _carRepository.UpdateAsync(id, car);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while updating the car", ex);
+            }
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            try
+            {
+                var existingCar = await _carRepository.GetByIdAsync(id);
+                if (existingCar == null)
+                {
+                    throw new KeyNotFoundException("Car not found");
+                }
+                await _carRepository.DeleteAsync(id);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while deleting the car", ex);
+            }
         }
     }
-}

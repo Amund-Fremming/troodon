@@ -1,15 +1,14 @@
+using System;
 
-            using System;
+namespace Test.Cli
+{
+    public class Car
+    {
+        public Guid Id { get; set; }
 
-            namespace troodon.Cli
-            {
-                public class Car
-                {
-                    public Guid Id { get; set; }
-
-                    public Car()
-                    {
-                        Id = Guid.NewGuid();
-                    }
-                }
-            }
+        public Car()
+        {
+            Id = Guid.NewGuid();
+        }
+    }
+}

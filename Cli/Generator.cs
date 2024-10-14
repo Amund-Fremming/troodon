@@ -4,22 +4,20 @@ public class Generator
 {
     public static string Model(string entity, string projectName)
     {
-        return $@"
-            using System;
-
-            namespace troodon.Cli
-            {{
-                public class {entity}
-                {{
-                    public Guid Id {{ get; set; }}
-
-                    public {entity}()
-                    {{
-                        Id = Guid.NewGuid();
-                    }}
-                }}
-            }}";
+        return $"using System;\n\n" +
+               $"namespace {projectName}.Cli\n" +
+               $"{{\n" +
+               $"    public class {entity}\n" +
+               $"    {{\n" +
+               $"        public Guid Id {{ get; set; }}\n\n" +
+               $"        public {entity}()\n" +
+               $"        {{\n" +
+               $"            Id = Guid.NewGuid();\n" +
+               $"        }}\n" +
+               $"    }}\n" +
+               $"}}";
     }
+
 
     public static string Controller(string entity, string projectName)
     {
@@ -273,12 +271,12 @@ public class Generator
                $"}}\n";
     }
 
-    public static string Startup(string entity, string projectName)
+    public static string Program(string projectName)
     {
         throw new NotImplementedException();
     }
 
-    public static string EfCore(string entity, string projectName)
+    public static string DbContext(string projectName)
     {
         throw new NotImplementedException();
     }

@@ -35,11 +35,12 @@ public class Orchestrator
     public void Build()
     {
         Executor.BuildDotnetBase(ProjectName!);
+        Executor.FetchNuGets();
 
         if (FolderStructure == FolderStructure.Feature)
         {
             BuildFeatureFolder();
-            BuildFeature();
+            BuildFeatures();
         }
 
         if (FolderStructure == FolderStructure.Mvc)
@@ -47,20 +48,23 @@ public class Orchestrator
             BuildMvcFolders();
             // BuildMvc();
         }
+
+        BuildProgramCs();
+        BuildDbContext();
     }
 
-    private void BuildFeature()
+    private void BuildFeatures()
     {
         try
         {
             foreach (var entity in Entities!)
             {
-                FeatureArchitecture(entity);
+                BuildFeatureFiles(entity);
             }
         }
         catch (Exception e)
         {
-            throw new Exception("BuildFeature: " + e.Message);
+            throw new Exception("BuildFeatures: " + e.Message);
         }
     }
 
@@ -99,7 +103,7 @@ public class Orchestrator
         }
     }
 
-    private void FeatureArchitecture(string entity)
+    private void BuildFeatureFiles(string entity)
     {
         try
         {
@@ -115,12 +119,12 @@ public class Orchestrator
             Crawler.CreateFile(controller);
             Crawler.WriteToFile(controller, controllerSkeleton);
 
-            string serviceInterface = $"I{entity}";
+            string serviceInterface = $"I{entity}Service";
             string iServiceSkeleton = Generator.Interface(entity, ProjectName!, "service");
             Crawler.CreateFile(serviceInterface);
             Crawler.WriteToFile(serviceInterface, iServiceSkeleton!);
 
-            string repositoryInterface = $"I{entity}";
+            string repositoryInterface = $"I{entity}Repository";
             string iRepoSkeleton = Generator.Interface(entity, ProjectName!, "repository");
             Crawler.CreateFile(repositoryInterface);
             Crawler.WriteToFile(repositoryInterface, iRepoSkeleton!);
@@ -133,13 +137,13 @@ public class Orchestrator
             string repository = $"{entity}Repository";
             string repositorySkeleton = Generator.Repository(entity, ProjectName!);
             Crawler.CreateFile(repository);
-            Crawler.WriteToFile(service, serviceSkeleton);
+            Crawler.WriteToFile(repository, repositorySkeleton);
 
             Crawler.MoveOut();
         }
         catch (Exception e)
         {
-            throw new Exception("FeatureArchitecture: " + e.Message);
+            throw new Exception("BuildFeatureFiles: " + e.Message);
         }
     }
 
@@ -178,20 +182,49 @@ public class Orchestrator
         }
         catch (Exception e)
         {
-            throw new Exception("FeatureArchitecture: " + e.Message);
+            throw new Exception("BuildFeatureFiles: " + e.Message);
         }
     }
 
-    private void BuildProjectFilesAndDependencies()
+    private void BuildDbContext()
     {
         try
         {
-            // Create dotnet project
-            // Install folders
+            var dir = "App";
+            var file = "AppDbContext.cs";
+
+            Crawler.CreateDir(dir);
+            Crawler.MoveIn(dir);
+            Crawler.CreateFile(file);
+
+            var contextSkeleton = Generator.DbContext(ProjectName!);
+            Crawler.WriteToFile(file, contextSkeleton);
+
+            Crawler.MoveOut();
         }
         catch (Exception e)
         {
-            throw new Exception("BuildProjectFilesAndDependencies: " + e.Message);
+            throw new Exception("CreateDbContext: " + e.Message);
+        }
+    }
+
+    private void BuildProgramCs()
+    {
+        try
+        {
+            var file = "Program";
+
+            Crawler.DeleteFile(file);
+            Crawler.CreateFile(file);
+
+            var programSkeleton = Generator.Program(ProjectName!);
+            Crawler.WriteToFile(file, programSkeleton);
+
+            Crawler.MoveOut();
+        }
+        catch (Exception e)
+        {
+            throw new Exception("CreateDbContext: " + e.Message);
         }
     }
 }

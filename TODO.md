@@ -1,7 +1,6 @@
 # TODO
 
-- [x] Implement Generator method for Service Interface
-  - [ ] Make it work
+- [ ] Implement Generator method for Service Interface
 - [ ] Implement Generator method for Repository Interface
 - [ ] Edit the FeatureArchitecture to use Interfaces from classes under
 - [ ] Edit FeatureArchitecture to generate Interfaces for both Service and Repository

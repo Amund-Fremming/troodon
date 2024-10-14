@@ -83,6 +83,21 @@ public class Crawler
         }
     }
 
+    public void DeleteFile(string name)
+    {
+        try
+        {
+            name = name + ".cs";
+            var deleteFilePath = Path.Combine(CurrentDir, name);
+            File.Delete(deleteFilePath);
+            AnsiConsole.MarkupLine($"[yellow]Deleted file at {deleteFilePath}[/]");
+        }
+        catch (Exception e)
+        {
+            throw new Exception("DeleteFile: " + e.Message);
+        }
+    }
+
     public void WriteToFile(string file, string content)
     {
         try

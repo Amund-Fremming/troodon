@@ -33,13 +33,25 @@ public static class Executor
         }
     }
 
+    public static void RunMigration(string projectName)
+    {
+        try
+        {
+            throw new NotImplementedException("Yeah, not implemented buddy...");
+        }
+        catch (Exception e)
+        {
+            throw new Exception("BuildDotnetBase: " + e.Message);
+        }
+    }
+
     public static void FetchNuGets()
     {
         try
         {
-            string commandOne = "dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL";
-            string commandTwo = "dotnet add package Microsoft.EntityFrameworkCore.Design";
-            string commandThree = "dotnet add package Swashbuckle.AspNetCore";
+            string commandOne = "add package Npgsql.EntityFrameworkCore.PostgreSQL";
+            string commandTwo = "add package Microsoft.EntityFrameworkCore.Design";
+            string commandThree = "add package Swashbuckle.AspNetCore";
 
             RunCommand(commandOne);
             RunCommand(commandTwo);

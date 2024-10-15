@@ -1,10 +1,10 @@
 # TODO
 
-- [ ] Implement Generator method for Service Interface
-- [ ] Implement Generator method for Repository Interface
-- [ ] Edit the FeatureArchitecture to use Interfaces from classes under
-- [ ] Edit FeatureArchitecture to generate Interfaces for both Service and Repository
+- [ ] Bug in Program.cs generator
+- [ ] CarModel not being recognized as a model
+- [ ] Program.cs generated wrong, and some indenting errors
 - [ ] Rewrite the code to either: Move the created project out one folder, or, rewrite so its creater there
+- [ ] Change name from BuildMvc and so on to BuildLayeredArchitecture
 
 - [ ] Add possibility for Cloudflare integration?
 - [ ] Add tree print of generated code ??

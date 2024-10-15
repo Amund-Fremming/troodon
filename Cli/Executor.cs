@@ -5,7 +5,7 @@ namespace troodon.Cli;
 
 public static class Executor
 {
-    private static void RunCommand(string command)
+    private static void RunCommand(string command, string workingDirectory = "")
     {
         using (Process process = new Process())
         {
@@ -14,6 +14,11 @@ public static class Executor
 
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.RedirectStandardOutput = true;
+
+            if (!string.IsNullOrEmpty(workingDirectory))
+            {
+                process.StartInfo.WorkingDirectory = workingDirectory;
+            }
 
             process.Start();
             process.WaitForExit();
@@ -45,18 +50,19 @@ public static class Executor
         }
     }
 
-    public static void FetchNuGets()
+    public static void FetchNuGets(string projectName)
     {
         try
         {
+            string projectDirectory = Path.Combine(Directory.GetCurrentDirectory(), projectName);
+
             string commandOne = "add package Npgsql.EntityFrameworkCore.PostgreSQL";
             string commandTwo = "add package Microsoft.EntityFrameworkCore.Design";
             string commandThree = "add package Swashbuckle.AspNetCore";
 
-            RunCommand(commandOne);
-            RunCommand(commandTwo);
-            RunCommand(commandThree);
-
+            RunCommand(commandOne, projectDirectory);
+            RunCommand(commandTwo, projectDirectory);
+            RunCommand(commandThree, projectDirectory);
         }
         catch (Exception e)
         {

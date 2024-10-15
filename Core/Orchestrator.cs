@@ -35,11 +35,12 @@ public class Orchestrator
     public void Build()
     {
         Executor.BuildDotnetBase(ProjectName!);
-        Executor.FetchNuGets();
+        Executor.FetchNuGets(ProjectName!);
+        Crawler.MoveIn(ProjectName!);
 
         if (FolderStructure == FolderStructure.Feature)
         {
-            BuildFeatureFolder();
+            Crawler.CreateDir("Features");
             BuildFeatures();
         }
 
@@ -57,10 +58,12 @@ public class Orchestrator
     {
         try
         {
+            Crawler.MoveIn("Features");
             foreach (var entity in Entities!)
             {
                 BuildFeatureFiles(entity);
             }
+            Crawler.MoveOut();
         }
         catch (Exception e)
         {
@@ -110,9 +113,10 @@ public class Orchestrator
             Crawler.CreateDir(entity);
             Crawler.MoveIn(entity);
 
+            string model = $"{entity}Model";
             string entitySkeleton = Generator.Model(entity, ProjectName!);
-            Crawler.CreateFile(entity);
-            Crawler.WriteToFile(entity, entitySkeleton);
+            Crawler.CreateFile(model);
+            Crawler.WriteToFile(model, entitySkeleton);
 
             string controller = $"{entity}Controller";
             string controllerSkeleton = Generator.Controller(entity, ProjectName!);
@@ -159,19 +163,6 @@ public class Orchestrator
         }
     }
 
-    private void BuildFeatureFolder()
-    {
-        try
-        {
-            Crawler.MoveIn(ProjectName!);
-            Crawler.CreateDir("Features");
-            Crawler.MoveIn("Features");
-        }
-        catch (Exception e)
-        {
-            throw new Exception("BuildFeatureFolder: " + e.Message);
-        }
-    }
 
     private void BuildMvcFolders()
     {
@@ -191,13 +182,13 @@ public class Orchestrator
         try
         {
             var dir = "App";
-            var file = "AppDbContext.cs";
+            var file = "AppDbContext";
 
             Crawler.CreateDir(dir);
             Crawler.MoveIn(dir);
             Crawler.CreateFile(file);
 
-            var contextSkeleton = Generator.DbContext(ProjectName!);
+            var contextSkeleton = Generator.DbContext(Entities!, ProjectName!);
             Crawler.WriteToFile(file, contextSkeleton);
 
             Crawler.MoveOut();
@@ -217,10 +208,8 @@ public class Orchestrator
             Crawler.DeleteFile(file);
             Crawler.CreateFile(file);
 
-            var programSkeleton = Generator.Program(ProjectName!);
+            var programSkeleton = Generator.Program(Entities!, ProjectName!);
             Crawler.WriteToFile(file, programSkeleton);
-
-            Crawler.MoveOut();
         }
         catch (Exception e)
         {

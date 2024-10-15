@@ -5,17 +5,15 @@ public class Generator
     public static string Model(string entity, string projectName)
     {
         return $"using System;\n\n" +
-               $"namespace {projectName}.Cli\n" +
+               $"namespace {projectName}.Features.{entity}; \n\n" +
+               $"public class {entity}Model\n" +
                $"{{\n" +
-               $"    public class {entity}\n" +
+               $"    public Guid Id {{ get; set; }}\n\n" +
+               $"    public {entity}Model()\n" +
                $"    {{\n" +
-               $"        public Guid Id {{ get; set; }}\n\n" +
-               $"        public {entity}()\n" +
-               $"        {{\n" +
-               $"            Id = Guid.NewGuid();\n" +
-               $"        }}\n" +
+               $"        Id = Guid.NewGuid();\n" +
                $"    }}\n" +
-               $"}}";
+               $"}}\n";
     }
 
 
@@ -34,7 +32,7 @@ public class Generator
 
             // Create
             $"    [HttpPost]\n" +
-            $"    public async Task<IActionResult> Create([FromBody] {entity} {entity.ToLower()})\n" +
+            $"    public async Task<IActionResult> Create([FromBody] {entity}Model {entity.ToLower()}Model)\n" +
             $"    {{\n" +
             $"        try\n" +
             $"        {{\n" +
@@ -65,7 +63,7 @@ public class Generator
 
             // Update
             $"    [HttpPut(\"{{id}}\")] \n" +
-            $"    public async Task<IActionResult> Update(int id, [FromBody] {entity} {entity.ToLower()})\n" +
+            $"    public async Task<IActionResult> Update(int id, [FromBody] {entity}Model {entity.ToLower()}Model)\n" +
             $"    {{\n" +
             $"        try\n" +
             $"        {{\n" +
@@ -108,7 +106,7 @@ public class Generator
             $"        }}\n\n" +
 
             // Create
-            $"        public async Task<int> CreateAsync({entity} {entity.ToLower()})\n" +
+            $"        public async Task<int> CreateAsync({entity}Model {entity.ToLower()}Model)\n" +
             $"        {{\n" +
             $"            try\n" +
             $"            {{\n" +
@@ -116,7 +114,7 @@ public class Generator
             $"            }}\n" +
             $"            catch (Exception ex)\n" +
             $"            {{\n" +
-            $"                throw new Exception(\"An error occurred while creating the {entity.ToLower()}\", ex);\n" +
+            $"                throw new Exception(\"An error occurred while creating the {entity.ToLower()}Model\", ex);\n" +
             $"            }}\n" +
             $"        }}\n\n" +
 
@@ -129,12 +127,12 @@ public class Generator
             $"            }}\n" +
             $"            catch (Exception ex)\n" +
             $"            {{\n" +
-            $"                throw new Exception(\"An error occurred while retrieving the {entity.ToLower()}\", ex);\n" +
+            $"                throw new Exception(\"An error occurred while retrieving the {entity.ToLower()}Model\", ex);\n" +
             $"            }}\n" +
             $"        }}\n\n" +
 
             // Update
-            $"        public async Task UpdateAsync(int id, {entity} {entity.ToLower()})\n" +
+            $"        public async Task UpdateAsync(int id, {entity}Model {entity.ToLower()}Model)\n" +
             $"        {{\n" +
             $"            try\n" +
             $"            {{\n" +
@@ -147,7 +145,7 @@ public class Generator
             $"            }}\n" +
             $"            catch (Exception ex)\n" +
             $"            {{\n" +
-            $"                throw new Exception(\"An error occurred while updating the {entity.ToLower()}\", ex);\n" +
+            $"                throw new Exception(\"An error occurred while updating the {entity.ToLower()}Model\", ex);\n" +
             $"            }}\n" +
             $"        }}\n\n" +
 
@@ -165,7 +163,7 @@ public class Generator
             $"            }}\n" +
             $"            catch (Exception ex)\n" +
             $"            {{\n" +
-            $"                throw new Exception(\"An error occurred while deleting the {entity.ToLower()}\", ex);\n" +
+            $"                throw new Exception(\"An error occurred while deleting the {entity.ToLower()}Model\", ex);\n" +
             $"            }}\n" +
             $"        }}\n" +
             $"    }}\n";
@@ -183,7 +181,7 @@ public class Generator
             $"        }}\n\n" +
 
             // Create
-            $"        public async Task<int> CreateAsync({entity} {entity.ToLower()})\n" +
+            $"        public async Task<int> CreateAsync({entity}Model {entity.ToLower()}Model)\n" +
             $"        {{\n" +
             $"            try\n" +
             $"            {{\n" +
@@ -193,12 +191,12 @@ public class Generator
             $"            }}\n" +
             $"            catch (Exception ex)\n" +
             $"            {{\n" +
-            $"                throw new Exception(\"An error occurred while adding the {entity.ToLower()} to the database\", ex);\n" +
+            $"                throw new Exception(\"An error occurred while adding the {entity.ToLower()}Model to the database\", ex);\n" +
             $"            }}\n" +
             $"        }}\n\n" +
 
             // Read
-            $"        public async Task<{entity}> GetByIdAsync(int id)\n" +
+            $"        public async Task<{entity}Model> GetByIdAsync(int id)\n" +
             $"        {{\n" +
             $"            try\n" +
             $"            {{\n" +
@@ -206,12 +204,12 @@ public class Generator
             $"            }}\n" +
             $"            catch (Exception ex)\n" +
             $"            {{\n" +
-            $"                throw new Exception(\"An error occurred while retrieving the {entity.ToLower()} from the database\", ex);\n" +
+            $"                throw new Exception(\"An error occurred while retrieving the {entity.ToLower()}Model from the database\", ex);\n" +
             $"            }}\n" +
             $"        }}\n\n" +
 
             // Update
-            $"        public async Task UpdateAsync(int id, {entity} {entity.ToLower()})\n" +
+            $"        public async Task UpdateAsync(int id, {entity}Model {entity.ToLower()}Model)\n" +
             $"        {{\n" +
             $"            try\n" +
             $"            {{\n" +
@@ -220,12 +218,12 @@ public class Generator
             $"                {{\n" +
             $"                    throw new KeyNotFoundException(\"{entity} not found\");\n" +
             $"                }}\n" +
-            $"                _context.Entry(existing{entity}).CurrentValues.SetValues({entity.ToLower()});\n" +
+            $"                _context.Entry(existing{entity}).CurrentValues.SetValues({entity.ToLower()}Model);\n" +
             $"                await _context.SaveChangesAsync();\n" +
             $"            }}\n" +
             $"            catch (Exception ex)\n" +
             $"            {{\n" +
-            $"                throw new Exception(\"An error occurred while updating the {entity.ToLower()} in the database\", ex);\n" +
+            $"                throw new Exception(\"An error occurred while updating the {entity.ToLower()}Model in the database\", ex);\n" +
             $"            }}\n" +
             $"        }}\n\n" +
 
@@ -244,7 +242,7 @@ public class Generator
             $"            }}\n" +
             $"            catch (Exception ex)\n" +
             $"            {{\n" +
-            $"                throw new Exception(\"An error occurred while deleting the {entity.ToLower()} from the database\", ex);\n" +
+            $"                throw new Exception(\"An error occurred while deleting the {entity.ToLower()}Model from the database\", ex);\n" +
             $"            }}\n" +
             $"        }}\n" +
             $"    }}\n";
@@ -258,26 +256,79 @@ public class Generator
                $"public interface I{interfaceName}\n" +
                $"{{\n" +
                $"    // Create\n" +
-               $"    Task<int> CreateAsync({entity} {entity.ToLower()});\n\n" +
+               $"    Task<int> CreateAsync({entity}Model {entity.ToLower()}Model);\n\n" +
 
                $"    // Read\n" +
-               $"    Task<{entity}> GetByIdAsync(int id);\n\n" +
+               $"    Task<{entity}Model> GetByIdAsync(int id);\n\n" +
 
                $"    // Update\n" +
-               $"    Task UpdateAsync(int id, {entity} {entity.ToLower()});\n\n" +
+               $"    Task UpdateAsync(int id, {entity}Model {entity.ToLower()}Model);\n\n" +
 
                $"    // Delete\n" +
                $"    Task DeleteAsync(int id);\n" +
                $"}}\n";
     }
 
-    public static string Program(string projectName)
+    public static string Program(IEnumerable<string> entities, string projectName)
     {
-        throw new NotImplementedException();
+        var registerServices = string.Join("\n", entities.Select(entity =>
+            $"services.AddScoped<I{entity}Service, {entity}Service>();\n" +
+            $"services.AddScoped<I{entity}Repository, {entity}Repository>();\n"));
+
+        return $"using {projectName}.Features;\n" +
+               $"using Microsoft.OpenApi.Models;\n\n" +
+               $"var builder = WebApplication.CreateBuilder(args);\n\n" +
+
+               $"{registerServices}" +
+               $"builder.Services.AddControllers();\n\n" +
+
+               $"builder.Services.AddEndpointsApiExplorer();\n" +
+               $"builder.Services.AddSwaggerGen(c =>\n" +
+               $"{{\n" +
+               $"    c.SwaggerDoc(\"v1\", new OpenApiInfo {{ Title = \"{projectName} API\", Version = \"v1\" }});\n" +
+               $"}});\n\n" +
+
+               $"var app = builder.Build();\n\n" +
+
+               $"if (app.Environment.IsDevelopment())\n" +
+               $"{{\n" +
+               $"    app.UseSwagger();\n" +
+               $"    app.UseSwaggerUI(c => c.SwaggerEndpoint(\"/swagger/v1/swagger.json\", \"{projectName} API v1\"));\n" +
+               $"}}\n\n" +
+
+               $"app.UseHttpsRedirection();\n\n" +
+
+               $"app.UseAuthorization();\n\n" +
+
+               $"app.MapControllers();\n\n" +
+
+               $"app.Run();\n";
     }
 
-    public static string DbContext(string projectName)
+    public static string DbContext(IEnumerable<string> entities, string projectName)
     {
-        throw new NotImplementedException();
+        var usings = string.Join("\n", entities.Select(entity =>
+            $"using {projectName}.Features.{entity};"));
+
+        var dbSets = string.Join("\n", entities.Select(entity =>
+            $"    public DbSet<{entity}Model> {entity} {{ get; set; }}\n"));
+
+        var configurePrimaryKeys = string.Join("\n", entities.Select(entity =>
+            $"        modelBuilder.Entity<{entity}Model>().HasKey(e => e.Id);\n"));
+
+        return $"using Microsoft.EntityFrameworkCore;\n" +
+               $"{usings}\n\n" +
+               $"namespace {projectName}.Infrastructure;\n\n" +
+               $"public class AppDbContext : DbContext\n" +
+               $"{{\n" +
+               $"{dbSets}\n" +
+               $"    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)\n" +
+               $"    {{\n" +
+               $"    }}\n\n" +
+               $"    protected override void OnModelCreating(ModelBuilder modelBuilder)\n" +
+               $"    {{\n" +
+               $"{configurePrimaryKeys}" +
+               $"    }}\n" +
+               $"}}\n";
     }
 }

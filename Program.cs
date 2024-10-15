@@ -1,4 +1,4 @@
-﻿using troodon.Core;
+using troodon.Core;
 using troodon.Cli;
 
 namespace troodon;

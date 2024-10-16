@@ -36,7 +36,7 @@ public class Generator
             $"    {{\n" +
             $"        try\n" +
             $"        {{\n" +
-            $"            await _{entity.ToLower()}Service.CreateAsync({entity.ToLower()});\n" +
+            $"            await _{entity.ToLower()}Service.CreateAsync({entity.ToLower()}Model);\n" +
             $"            return Ok();\n" +
             $"        }}\n" +
             $"       catch (Exception)\n" +
@@ -47,7 +47,7 @@ public class Generator
 
             // Read
             $"    [HttpGet(\"{{id}}\")] \n" +
-            $"    public async Task<IActionResult> GetById(int id)\n" +
+            $"    public async Task<IActionResult> GetById(Guid id)\n" +
             $"    {{\n" +
             $"        try\n" +
             $"        {{\n" +
@@ -63,12 +63,12 @@ public class Generator
 
             // Update
             $"    [HttpPut(\"{{id}}\")] \n" +
-            $"    public async Task<IActionResult> Update(int id, [FromBody] {entity}Model {entity.ToLower()}Model)\n" +
+            $"    public async Task<IActionResult> Update(Guid id, [FromBody] {entity}Model {entity.ToLower()}Model)\n" +
             $"    {{\n" +
             $"        try\n" +
             $"        {{\n" +
-            $"            if (id != {entity.ToLower()}.Id) return BadRequest();\n" +
-            $"            await _{entity.ToLower()}Service.UpdateAsync(id, {entity.ToLower()});\n" +
+            $"            if (id != {entity.ToLower()}Model.Id) return BadRequest();\n" +
+            $"            await _{entity.ToLower()}Service.UpdateAsync(id, {entity.ToLower()}Model);\n" +
             $"            return NoContent();\n" +
             $"        }}\n" +
             $"        catch (Exception)\n" +
@@ -79,7 +79,7 @@ public class Generator
 
             // Delete
             $"    [HttpDelete(\"{{id}}\")] \n" +
-            $"    public async Task<IActionResult> Delete(int id)\n" +
+            $"    public async Task<IActionResult> Delete(Guid id)\n" +
             $"    {{\n" +
             $"        try\n" +
             $"        {{\n" +
@@ -106,11 +106,11 @@ public class Generator
             $"        }}\n\n" +
 
             // Create
-            $"        public async Task<int> CreateAsync({entity}Model {entity.ToLower()}Model)\n" +
+            $"        public async Task<Guid> CreateAsync({entity}Model {entity.ToLower()}Model)\n" +
             $"        {{\n" +
             $"            try\n" +
             $"            {{\n" +
-            $"                return await _{entity.ToLower()}Repository.CreateAsync({entity.ToLower()});\n" +
+            $"                return await _{entity.ToLower()}Repository.CreateAsync({entity.ToLower()}Model);\n" +
             $"            }}\n" +
             $"            catch (Exception ex)\n" +
             $"            {{\n" +
@@ -119,7 +119,7 @@ public class Generator
             $"        }}\n\n" +
 
             // Read
-            $"        public async Task<{entity}> GetByIdAsync(int id)\n" +
+            $"        public async Task<{entity}Model> GetByIdAsync(Guid id)\n" +
             $"        {{\n" +
             $"            try\n" +
             $"            {{\n" +
@@ -132,7 +132,7 @@ public class Generator
             $"        }}\n\n" +
 
             // Update
-            $"        public async Task UpdateAsync(int id, {entity}Model {entity.ToLower()}Model)\n" +
+            $"        public async Task UpdateAsync(Guid id, {entity}Model {entity.ToLower()}Model)\n" +
             $"        {{\n" +
             $"            try\n" +
             $"            {{\n" +
@@ -141,7 +141,7 @@ public class Generator
             $"                {{\n" +
             $"                    throw new KeyNotFoundException(\"{entity} not found\");\n" +
             $"                }}\n" +
-            $"                await _{entity.ToLower()}Repository.UpdateAsync(id, {entity.ToLower()});\n" +
+            $"                await _{entity.ToLower()}Repository.UpdateAsync(id, {entity.ToLower()}Model);\n" +
             $"            }}\n" +
             $"            catch (Exception ex)\n" +
             $"            {{\n" +
@@ -150,7 +150,7 @@ public class Generator
             $"        }}\n\n" +
 
             // Delete
-            $"        public async Task DeleteAsync(int id)\n" +
+            $"        public async Task DeleteAsync(Guid id)\n" +
             $"        {{\n" +
             $"            try\n" +
             $"            {{\n" +
@@ -171,7 +171,8 @@ public class Generator
 
     public static string Repository(string entity, string projectName)
     {
-        return $"namespace {projectName}.Features.{entity}; \n\n" +
+        return $"using {projectName}.Infrastructure; \n\n" +
+            $"namespace {projectName}.Features.{entity}; \n\n" +
             $"    public class {entity}Repository : I{entity}Repository\n" +
             $"    {{\n" +
             $"        private readonly AppDbContext _context;\n\n" +
@@ -181,13 +182,13 @@ public class Generator
             $"        }}\n\n" +
 
             // Create
-            $"        public async Task<int> CreateAsync({entity}Model {entity.ToLower()}Model)\n" +
+            $"        public async Task<Guid> CreateAsync({entity}Model {entity.ToLower()}Model)\n" +
             $"        {{\n" +
             $"            try\n" +
             $"            {{\n" +
-            $"                _context.{entity}s.Add({entity.ToLower()});\n" +
+            $"                _context.{entity}.Add({entity.ToLower()}Model);\n" +
             $"                await _context.SaveChangesAsync();\n" +
-            $"                return {entity.ToLower()}.Id; // Assuming Id is the primary key\n" +
+            $"                return {entity.ToLower()}Model.Id; // Assuming Id is the primary key\n" +
             $"            }}\n" +
             $"            catch (Exception ex)\n" +
             $"            {{\n" +
@@ -196,11 +197,11 @@ public class Generator
             $"        }}\n\n" +
 
             // Read
-            $"        public async Task<{entity}Model> GetByIdAsync(int id)\n" +
+            $"        public async Task<{entity}Model> GetByIdAsync(Guid id)\n" +
             $"        {{\n" +
             $"            try\n" +
             $"            {{\n" +
-            $"                return await _context.{entity}s.FindAsync(id);\n" +
+            $"                return await _context.{entity}.FindAsync(id);\n" +
             $"            }}\n" +
             $"            catch (Exception ex)\n" +
             $"            {{\n" +
@@ -209,11 +210,11 @@ public class Generator
             $"        }}\n\n" +
 
             // Update
-            $"        public async Task UpdateAsync(int id, {entity}Model {entity.ToLower()}Model)\n" +
+            $"        public async Task UpdateAsync(Guid id, {entity}Model {entity.ToLower()}Model)\n" +
             $"        {{\n" +
             $"            try\n" +
             $"            {{\n" +
-            $"                var existing{entity} = await _context.{entity}s.FindAsync(id);\n" +
+            $"                var existing{entity} = await _context.{entity}.FindAsync(id);\n" +
             $"                if (existing{entity} == null)\n" +
             $"                {{\n" +
             $"                    throw new KeyNotFoundException(\"{entity} not found\");\n" +
@@ -228,16 +229,16 @@ public class Generator
             $"        }}\n\n" +
 
             // Delete
-            $"        public async Task DeleteAsync(int id)\n" +
+            $"        public async Task DeleteAsync(Guid id)\n" +
             $"        {{\n" +
             $"            try\n" +
             $"            {{\n" +
-            $"                var existing{entity} = await _context.{entity}s.FindAsync(id);\n" +
+            $"                var existing{entity} = await _context.{entity}.FindAsync(id);\n" +
             $"                if (existing{entity} == null)\n" +
             $"                {{\n" +
             $"                    throw new KeyNotFoundException(\"{entity} not found\");\n" +
             $"                }}\n" +
-            $"                _context.{entity}s.Remove(existing{entity});\n" +
+            $"                _context.{entity}.Remove(existing{entity});\n" +
             $"                await _context.SaveChangesAsync();\n" +
             $"            }}\n" +
             $"            catch (Exception ex)\n" +
@@ -256,26 +257,29 @@ public class Generator
                $"public interface I{interfaceName}\n" +
                $"{{\n" +
                $"    // Create\n" +
-               $"    Task<int> CreateAsync({entity}Model {entity.ToLower()}Model);\n\n" +
+               $"    Task<Guid> CreateAsync({entity}Model {entity.ToLower()}Model);\n\n" +
 
                $"    // Read\n" +
-               $"    Task<{entity}Model> GetByIdAsync(int id);\n\n" +
+               $"    Task<{entity}Model> GetByIdAsync(Guid id);\n\n" +
 
                $"    // Update\n" +
-               $"    Task UpdateAsync(int id, {entity}Model {entity.ToLower()}Model);\n\n" +
+               $"    Task UpdateAsync(Guid id, {entity}Model {entity.ToLower()}Model);\n\n" +
 
                $"    // Delete\n" +
-               $"    Task DeleteAsync(int id);\n" +
+               $"    Task DeleteAsync(Guid id);\n" +
                $"}}\n";
     }
 
     public static string Program(IEnumerable<string> entities, string projectName)
     {
-        var registerServices = string.Join("\n", entities.Select(entity =>
-            $"services.AddScoped<I{entity}Service, {entity}Service>();\n" +
-            $"services.AddScoped<I{entity}Repository, {entity}Repository>();\n"));
+        var usings = string.Join("\n", entities.Select(entity =>
+                $"using {projectName}.Features.{entity};\n"));
 
-        return $"using {projectName}.Features;\n" +
+        var registerServices = string.Join("\n", entities.Select(entity =>
+            $"builder.Services.AddScoped<I{entity}Service, {entity}Service>();\n" +
+            $"builder.Services.AddScoped<I{entity}Repository, {entity}Repository>();\n"));
+
+        return $"{usings}\n" +
                $"using Microsoft.OpenApi.Models;\n\n" +
                $"var builder = WebApplication.CreateBuilder(args);\n\n" +
 

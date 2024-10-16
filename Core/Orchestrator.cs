@@ -8,7 +8,6 @@ public class Orchestrator
     private string? ProjectName;
     private int NumberOfEntities;
     private IList<string>? Entities;
-    private FolderStructure FolderStructure;
 
     private Crawler Crawler;
 
@@ -36,22 +35,16 @@ public class Orchestrator
     {
         Executor.BuildDotnetBase(ProjectName!);
         Executor.FetchNuGets(ProjectName!);
+
         Crawler.MoveIn(ProjectName!);
+        Crawler.CreateDir("Features");
 
-        if (FolderStructure == FolderStructure.Feature)
-        {
-            Crawler.CreateDir("Features");
-            BuildFeatures();
-        }
-
-        if (FolderStructure == FolderStructure.Mvc)
-        {
-            BuildMvcFolders();
-            // BuildMvc();
-        }
-
+        BuildFeatures();
         BuildProgramCs();
         BuildDbContext();
+        // BuildConnectionString();
+
+        // Executor.RunMigration(ProjectName!);
     }
 
     private void BuildFeatures()
@@ -59,26 +52,8 @@ public class Orchestrator
         try
         {
             Crawler.MoveIn("Features");
-            foreach (var entity in Entities!)
-            {
-                BuildFeatureFiles(entity);
-            }
-            Crawler.MoveOut();
-        }
-        catch (Exception e)
-        {
-            throw new Exception("BuildFeatures: " + e.Message);
-        }
-    }
-
-    private void BuildMvc()
-    {
-        try
-        {
-            // Build project and dependecies
 
             double partOfHundred = Math.Floor(100.0 / Entities!.Count());
-            // IList<Task> tasks = new List<Task>();
 
             AnsiConsole.Progress()
                 .Start(ctx =>
@@ -87,26 +62,22 @@ public class Orchestrator
                     foreach (var entity in Entities!)
                     {
                         task.Increment(partOfHundred);
-                        // Opprett task
-                        // Putt i Task array
-                        // Task entityTask = MvcArchitecture(entity);
-                        // tasks.Add(entityTask);
+                        BuildFiles(entity);
                     }
 
                     double restOfDivide = 100 % Entities!.Count();
                     task.Increment(restOfDivide);
                 });
 
-            // Kjør alle tasks async
-            // await Task.WhenAll(tasks);
+            Crawler.MoveOut();
         }
         catch (Exception e)
         {
-            throw new Exception("BuildMvc: " + e.Message);
+            throw new Exception("BuildFeatures: " + e.Message);
         }
     }
 
-    private void BuildFeatureFiles(string entity)
+    private void BuildFiles(string entity)
     {
         try
         {
@@ -147,33 +118,7 @@ public class Orchestrator
         }
         catch (Exception e)
         {
-            throw new Exception("BuildFeatureFiles: " + e.Message);
-        }
-    }
-
-    private async Task MvcArchitecture(string entity)
-    {
-        try
-        {
-            // Build files for one entity in respective folders
-        }
-        catch (Exception e)
-        {
-            throw new Exception("MvcArchitecture: " + e.Message);
-        }
-    }
-
-
-    private void BuildMvcFolders()
-    {
-        try
-        {
-            // Create
-            // Move in
-        }
-        catch (Exception e)
-        {
-            throw new Exception("BuildFeatureFiles: " + e.Message);
+            throw new Exception("BuildFiles: " + e.Message);
         }
     }
 

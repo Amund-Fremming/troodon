@@ -8,6 +8,7 @@ public class Orchestrator
     private string? ProjectName;
     private int NumberOfEntities;
     private IList<string>? Entities;
+    private string? Database;
 
     private Crawler Crawler;
 
@@ -24,6 +25,10 @@ public class Orchestrator
             ProjectName = Parser.GetProjectName();
             NumberOfEntities = Parser.GetNumberOfEntities();
             Entities = Parser.GetEntityNames(NumberOfEntities);
+            Database = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                .Title("What kind of [blue]Database[/]?")
+                .AddChoices("In memory", "I have a connection string"));
         }
         catch (Exception e)
         {
@@ -33,18 +38,40 @@ public class Orchestrator
 
     public void Build()
     {
-        Executor.BuildDotnetBase(ProjectName!);
-        Executor.FetchNuGets(ProjectName!);
 
-        Crawler.MoveIn(ProjectName!);
-        Crawler.CreateDir("Features");
+        AnsiConsole.Status()
+            .Spinner(Spinner.Known.Arrow)
+            .SpinnerStyle(Style.Parse("blue"))
+            .Start("Generating project", ctx =>
+            {
+                Executor.BuildDotnetBase(ProjectName!);
 
-        BuildFeatures();
-        BuildProgramCs();
-        BuildDbContext();
-        // BuildConnectionString();
+                ctx.Status("Restoring NuGets");
+                Executor.FetchNuGets(ProjectName!);
 
-        // Executor.RunMigration(ProjectName!);
+                ctx.Status("Generating architecture");
+                Crawler.MoveIn(ProjectName!);
+                Crawler.CreateDir("Features");
+
+                BuildFeatures();
+                BuildProgramCs();
+                BuildDbContext();
+
+                if (Database!.Equals("In memory"))
+                {
+                    // BuildInMemoryDb();
+                    ctx.Status("Building in memory db");
+                    Thread.Sleep(1000);
+                }
+
+                if (Database.Equals("I have a connection string"))
+                {
+                    ctx.Status("Building db");
+                    Thread.Sleep(1000);
+                    // BuildAppSettings()
+                    // Executor.RunMigration(ProjectName!);
+                }
+            });
     }
 
     private void BuildFeatures()
@@ -53,21 +80,10 @@ public class Orchestrator
         {
             Crawler.MoveIn("Features");
 
-            double partOfHundred = Math.Floor(100.0 / Entities!.Count());
-
-            AnsiConsole.Progress()
-                .Start(ctx =>
-                {
-                    var task = ctx.AddTask("Processing...");
-                    foreach (var entity in Entities!)
-                    {
-                        task.Increment(partOfHundred);
-                        BuildFiles(entity);
-                    }
-
-                    double restOfDivide = 100 % Entities!.Count();
-                    task.Increment(restOfDivide);
-                });
+            foreach (var entity in Entities!)
+            {
+                BuildFiles(entity);
+            }
 
             Crawler.MoveOut();
         }

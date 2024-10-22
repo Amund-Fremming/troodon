@@ -1,8 +1,0 @@
-/home/amund/Documents/Projects/troodon/Ragne/obj/Debug/net8.0/Ragne.csproj.AssemblyReference.cache
-/home/amund/Documents/Projects/troodon/Ragne/obj/Debug/net8.0/Ragne.GeneratedMSBuildEditorConfig.editorconfig
-/home/amund/Documents/Projects/troodon/Ragne/obj/Debug/net8.0/Ragne.AssemblyInfoInputs.cache
-/home/amund/Documents/Projects/troodon/Ragne/obj/Debug/net8.0/Ragne.AssemblyInfo.cs
-/home/amund/Documents/Projects/troodon/Ragne/obj/Debug/net8.0/Ragne.csproj.CoreCompileInputs.cache
-/home/amund/Documents/Projects/troodon/Ragne/obj/Debug/net8.0/Ragne.MvcApplicationPartsAssemblyInfo.cs
-/home/amund/Documents/Projects/troodon/Ragne/obj/Debug/net8.0/Ragne.MvcApplicationPartsAssemblyInfo.cache
-/home/amund/Documents/Projects/troodon/Ragne/obj/Debug/net8.0/Ragne.sourcelink.json

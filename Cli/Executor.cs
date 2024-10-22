@@ -50,7 +50,7 @@ public static class Executor
         }
     }
 
-    public static void FetchNuGets(string projectName)
+    public static void FetchEfNuGets(string projectName)
     {
         try
         {
@@ -62,6 +62,24 @@ public static class Executor
 
             RunCommand(commandOne, projectDirectory);
             RunCommand(commandTwo, projectDirectory);
+            RunCommand(commandThree, projectDirectory);
+        }
+        catch (Exception e)
+        {
+            throw new Exception("FetchNuGets: " + e.Message);
+        }
+    }
+
+    public static void FetchInMemoryNuGets(string projectName)
+    {
+        try
+        {
+            string projectDirectory = Path.Combine(Directory.GetCurrentDirectory(), projectName);
+
+            string commandOne = "add package Microsoft.EntityFrameworkCore.InMemory";
+            string commandThree = "add package Swashbuckle.AspNetCore";
+
+            RunCommand(commandOne, projectDirectory);
             RunCommand(commandThree, projectDirectory);
         }
         catch (Exception e)

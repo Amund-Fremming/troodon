@@ -1,0 +1,84 @@
+{
+  "format": 1,
+  "restore": {
+    "/home/amund/Documents/Projects/troodon/Ragne/Ragne.csproj": {}
+  },
+  "projects": {
+    "/home/amund/Documents/Projects/troodon/Ragne/Ragne.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/amund/Documents/Projects/troodon/Ragne/Ragne.csproj",
+        "projectName": "Ragne",
+        "projectPath": "/home/amund/Documents/Projects/troodon/Ragne/Ragne.csproj",
+        "packagesPath": "/home/amund/.nuget/packages/",
+        "outputPath": "/home/amund/Documents/Projects/troodon/Ragne/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/amund/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.OpenApi": {
+              "target": "Package",
+              "version": "[8.0.4, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.10, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[8.0.10, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[6.9.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/home/linuxbrew/.linuxbrew/Cellar/dotnet/8.0.4/libexec/sdk/8.0.104/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

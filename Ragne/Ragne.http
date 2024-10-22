@@ -1,0 +1,6 @@
+@Ragne_HostAddress = http://localhost:5036
+
+GET {{Ragne_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

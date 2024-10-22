@@ -47,31 +47,47 @@ public class Orchestrator
                 Executor.BuildDotnetBase(ProjectName!);
 
                 ctx.Status("Restoring NuGets");
-                Executor.FetchNuGets(ProjectName!);
+                Executor.FetchEfNuGets(ProjectName!);
 
                 ctx.Status("Generating architecture");
                 Crawler.MoveIn(ProjectName!);
                 Crawler.CreateDir("Features");
 
                 BuildFeatures();
-                BuildProgramCs();
                 BuildDbContext();
 
                 if (Database!.Equals("In memory"))
                 {
-                    // BuildInMemoryDb();
+                    BuildProgramCs(true);
                     ctx.Status("Building in memory db");
                     Thread.Sleep(1000);
                 }
 
                 if (Database.Equals("I have a connection string"))
                 {
+                    BuildProgramCs(false);
                     ctx.Status("Building db");
                     Thread.Sleep(1000);
                     // BuildAppSettings()
-                    // Executor.RunMigration(ProjectName!);
+                    Executor.RunMigration(ProjectName!);
                 }
             });
+    }
+
+    private void BuildAppSettings()
+    {
+        try
+        {
+            string skeleton = Generator.AppSettings(connectionString);
+            string appsettings = "appsettings.json";
+            Crawler.DeleteFile(appsettings);
+            Crawler.CreateFile(appsettings);
+            Crawler.WriteToFile(appsettings, skeleton);
+        }
+        catch (Exception e)
+        {
+            throw new Exception("BuildAppSettings: " + e.Message);
+        }
     }
 
     private void BuildFeatures()
@@ -160,7 +176,7 @@ public class Orchestrator
         }
     }
 
-    private void BuildProgramCs()
+    private void BuildProgramCs(bool inMemory)
     {
         try
         {
@@ -169,7 +185,7 @@ public class Orchestrator
             Crawler.DeleteFile(file);
             Crawler.CreateFile(file);
 
-            var programSkeleton = Generator.Program(Entities!, ProjectName!);
+            var programSkeleton = Generator.Program(Entities!, ProjectName!, inMemory);
             Crawler.WriteToFile(file, programSkeleton);
         }
         catch (Exception e)

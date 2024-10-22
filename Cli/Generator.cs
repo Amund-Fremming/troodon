@@ -270,21 +270,31 @@ public class Generator
                $"}}\n";
     }
 
-    public static string Program(IEnumerable<string> entities, string projectName)
+    public static string Program(IEnumerable<string> entities, string projectName, bool inMemory)
     {
+        var inMemoryDbRegistration = "services.AddDbContext<MyDbContext>(options => \n" +
+            $"    options.UseInMemoryDatabase(\"TestDatabase\"));";
+
+        var dbRegistration = "builder.Services.AddDbContext<Data.AppDbContext>(options => \n" +
+            $"    options.UseNpgsql(builder.Configuration.GetConnectionString(\"DefaultConnection\")));";
+
+        var dbString = inMemory ? inMemoryDbRegistration : dbRegistration;
+
         var usings = string.Join("\n", entities.Select(entity =>
-                $"using {projectName}.Features.{entity};\n"));
+                $"using {projectName}.Features.{entity};"));
 
         var registerServices = string.Join("\n", entities.Select(entity =>
             $"builder.Services.AddScoped<I{entity}Service, {entity}Service>();\n" +
             $"builder.Services.AddScoped<I{entity}Repository, {entity}Repository>();\n"));
 
-        return $"{usings}\n" +
+        return $"using {projectName}.Infrastructure;\n" +
+               $"{usings}\n" +
                $"using Microsoft.OpenApi.Models;\n\n" +
                $"var builder = WebApplication.CreateBuilder(args);\n\n" +
 
                $"{registerServices}" +
                $"builder.Services.AddControllers();\n\n" +
+               $"{dbString}\n\n" +
 
                $"builder.Services.AddEndpointsApiExplorer();\n" +
                $"builder.Services.AddSwaggerGen(c =>\n" +
@@ -334,5 +344,10 @@ public class Generator
                $"{configurePrimaryKeys}" +
                $"    }}\n" +
                $"}}\n";
+    }
+
+    public static string AppSettings(string connectionString)
+    {
+        return "";
     }
 }

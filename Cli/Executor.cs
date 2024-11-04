@@ -1,4 +1,3 @@
-using Spectre.Console;
 using System.Diagnostics;
 
 namespace troodon.Cli;
@@ -25,6 +24,22 @@ public static class Executor
         }
     }
 
+    public static void MoveProject(string projectName)
+    {
+        try
+        {
+            string projectDirectory = Path.Combine(Directory.GetCurrentDirectory(), projectName);
+            string parentDirectory = Directory.GetParent(Directory.GetCurrentDirectory())!.FullName;
+            string targetPath = Path.Combine(parentDirectory, projectName);
+
+            Directory.Move(projectDirectory, targetPath);
+        }
+        catch (Exception e)
+        {
+            throw new Exception("MoveProject: " + e.Message);
+        }
+    }
+
     public static void BuildDotnetBase(string projectName)
     {
         try
@@ -42,11 +57,14 @@ public static class Executor
     {
         try
         {
-            throw new NotImplementedException("Yeah, not implemented buddy...");
+            string commandOne = "ef migrations add Init";
+            string commandTwo = "ef database update";
+            RunCommand(commandOne);
+            RunCommand(commandTwo);
         }
         catch (Exception e)
         {
-            throw new Exception("BuildDotnetBase: " + e.Message);
+            throw new Exception("RunMigration: " + e.Message);
         }
     }
 

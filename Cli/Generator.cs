@@ -275,7 +275,7 @@ public class Generator
         var inMemoryDbRegistration = "services.AddDbContext<MyDbContext>(options => \n" +
             $"    options.UseInMemoryDatabase(\"TestDatabase\"));";
 
-        var dbRegistration = "builder.Services.AddDbContext<Data.AppDbContext>(options => \n" +
+        var dbRegistration = "builder.Services.AddDbContext<AppDbContext>(options => \n" +
             $"    options.UseNpgsql(builder.Configuration.GetConnectionString(\"DefaultConnection\")));";
 
         var dbString = inMemory ? inMemoryDbRegistration : dbRegistration;
@@ -288,6 +288,7 @@ public class Generator
             $"builder.Services.AddScoped<I{entity}Repository, {entity}Repository>();\n"));
 
         return $"using {projectName}.Infrastructure;\n" +
+               $"using Microsoft.EntityFrameworkCore;\n" +
                $"{usings}\n" +
                $"using Microsoft.OpenApi.Models;\n\n" +
                $"var builder = WebApplication.CreateBuilder(args);\n\n" +
@@ -348,6 +349,17 @@ public class Generator
 
     public static string AppSettings(string connectionString)
     {
-        return "";
+        return "{\n" +
+       "  \"Logging\": {\n" +
+       "    \"LogLevel\": {\n" +
+       "      \"Default\": \"Information\",\n" +
+       "      \"Microsoft.AspNetCore\": \"Warning\"\n" +
+       "    }\n" +
+       "  },\n" +
+       "  \"ConnectionStrings\": {\n" +
+       $"    \"DefaultConnection\": \"{connectionString}\"\n" +
+       "  },\n" +
+       "  \"AllowedHosts\": \"*\"\n" +
+       "}";
     }
 }

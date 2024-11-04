@@ -68,7 +68,6 @@ public class Crawler
     {
         try
         {
-            name = name + ".cs";
             var newFilePath = Path.Combine(CurrentDir, name);
             File.Create(newFilePath).Dispose();
         }
@@ -82,7 +81,6 @@ public class Crawler
     {
         try
         {
-            name = name + ".cs";
             var deleteFilePath = Path.Combine(CurrentDir, name);
             File.Delete(deleteFilePath);
         }

@@ -5,10 +5,11 @@ namespace troodon.Core;
 
 public class Orchestrator
 {
-    private string? ProjectName;
-    private int NumberOfEntities;
-    private IList<string>? Entities;
-    private string? Database;
+    private string? ProjectName { get; set; }
+    private int NumberOfEntities { get; set; }
+    private IList<string>? Entities { get; set; }
+    private string? Database { get; set; }
+    private string? ConnectionString { get; set; }
 
     private Crawler Crawler;
 
@@ -29,6 +30,9 @@ public class Orchestrator
                 new SelectionPrompt<string>()
                 .Title("What kind of [blue]Database[/]?")
                 .AddChoices("In memory", "I have a connection string"));
+
+            if (Database.Equals("I have a connection string"))
+                ConnectionString = AnsiConsole.Ask<string>("Connection string: ");
         }
         catch (Exception e)
         {
@@ -38,7 +42,6 @@ public class Orchestrator
 
     public void Build()
     {
-
         AnsiConsole.Status()
             .Spinner(Spinner.Known.Arrow)
             .SpinnerStyle(Style.Parse("blue"))
@@ -68,17 +71,19 @@ public class Orchestrator
                     BuildProgramCs(false);
                     ctx.Status("Building db");
                     Thread.Sleep(1000);
-                    // BuildAppSettings()
+                    BuildAppSettings();
                     Executor.RunMigration(ProjectName!);
                 }
             });
+
+        Executor.MoveProject(ProjectName!);
     }
 
     private void BuildAppSettings()
     {
         try
         {
-            string skeleton = Generator.AppSettings(connectionString);
+            string skeleton = Generator.AppSettings(ConnectionString!);
             string appsettings = "appsettings.json";
             Crawler.DeleteFile(appsettings);
             Crawler.CreateFile(appsettings);
@@ -118,32 +123,32 @@ public class Orchestrator
 
             string model = $"{entity}Model";
             string entitySkeleton = Generator.Model(entity, ProjectName!);
-            Crawler.CreateFile(model);
+            Crawler.CreateFile(model + ".cs");
             Crawler.WriteToFile(model, entitySkeleton);
 
             string controller = $"{entity}Controller";
             string controllerSkeleton = Generator.Controller(entity, ProjectName!);
-            Crawler.CreateFile(controller);
+            Crawler.CreateFile(controller + ".cs");
             Crawler.WriteToFile(controller, controllerSkeleton);
 
             string serviceInterface = $"I{entity}Service";
             string iServiceSkeleton = Generator.Interface(entity, ProjectName!, "service");
-            Crawler.CreateFile(serviceInterface);
+            Crawler.CreateFile(serviceInterface + ".cs");
             Crawler.WriteToFile(serviceInterface, iServiceSkeleton!);
 
             string repositoryInterface = $"I{entity}Repository";
             string iRepoSkeleton = Generator.Interface(entity, ProjectName!, "repository");
-            Crawler.CreateFile(repositoryInterface);
+            Crawler.CreateFile(repositoryInterface + ".cs");
             Crawler.WriteToFile(repositoryInterface, iRepoSkeleton!);
 
             string service = $"{entity}Service";
             string serviceSkeleton = Generator.Service(entity, ProjectName!);
-            Crawler.CreateFile(service);
+            Crawler.CreateFile(service + ".cs");
             Crawler.WriteToFile(service, serviceSkeleton);
 
             string repository = $"{entity}Repository";
             string repositorySkeleton = Generator.Repository(entity, ProjectName!);
-            Crawler.CreateFile(repository);
+            Crawler.CreateFile(repository + ".cs");
             Crawler.WriteToFile(repository, repositorySkeleton);
 
             Crawler.MoveOut();
@@ -163,7 +168,7 @@ public class Orchestrator
 
             Crawler.CreateDir(dir);
             Crawler.MoveIn(dir);
-            Crawler.CreateFile(file);
+            Crawler.CreateFile(file + ".cs");
 
             var contextSkeleton = Generator.DbContext(Entities!, ProjectName!);
             Crawler.WriteToFile(file, contextSkeleton);
@@ -182,8 +187,8 @@ public class Orchestrator
         {
             var file = "Program";
 
-            Crawler.DeleteFile(file);
-            Crawler.CreateFile(file);
+            Crawler.DeleteFile(file + ".cs");
+            Crawler.CreateFile(file + ".cs");
 
             var programSkeleton = Generator.Program(Entities!, ProjectName!, inMemory);
             Crawler.WriteToFile(file, programSkeleton);

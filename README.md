@@ -27,10 +27,9 @@ npm install troodon
 
 ## Features
 
-- Sets up Auth 2.0.
-  - Feature folder architecture.
-  - EF Core and registers the models to the database.
-  - [Swagger](https://swagger.io/).
+- Feature folder architecture.
+- EF Core and registers the models to the database.
+- [Swagger](https://swagger.io/).
 - Generates
   - Interfaces with Crud operations
   - Basic Crud operations implemented

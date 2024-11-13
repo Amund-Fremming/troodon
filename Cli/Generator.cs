@@ -16,7 +16,6 @@ public class Generator
                $"}}\n";
     }
 
-
     public static string Controller(string entity, string projectName)
     {
         return $"using Microsoft.AspNetCore.Mvc; \n\n" +
@@ -270,15 +269,10 @@ public class Generator
                $"}}\n";
     }
 
-    public static string Program(IEnumerable<string> entities, string projectName, bool inMemory)
+    public static string Program(IEnumerable<string> entities, string projectName)
     {
-        var inMemoryDbRegistration = "services.AddDbContext<MyDbContext>(options => \n" +
-            $"    options.UseInMemoryDatabase(\"TestDatabase\"));";
-
         var dbRegistration = "builder.Services.AddDbContext<AppDbContext>(options => \n" +
             $"    options.UseNpgsql(builder.Configuration.GetConnectionString(\"DefaultConnection\")));";
-
-        var dbString = inMemory ? inMemoryDbRegistration : dbRegistration;
 
         var usings = string.Join("\n", entities.Select(entity =>
                 $"using {projectName}.Features.{entity};"));
@@ -295,7 +289,7 @@ public class Generator
 
                $"{registerServices}" +
                $"builder.Services.AddControllers();\n\n" +
-               $"{dbString}\n\n" +
+               $"{dbRegistration}\n\n" +
 
                $"builder.Services.AddEndpointsApiExplorer();\n" +
                $"builder.Services.AddSwaggerGen(c =>\n" +
@@ -345,21 +339,5 @@ public class Generator
                $"{configurePrimaryKeys}" +
                $"    }}\n" +
                $"}}\n";
-    }
-
-    public static string AppSettings(string connectionString)
-    {
-        return "{\n" +
-       "  \"Logging\": {\n" +
-       "    \"LogLevel\": {\n" +
-       "      \"Default\": \"Information\",\n" +
-       "      \"Microsoft.AspNetCore\": \"Warning\"\n" +
-       "    }\n" +
-       "  },\n" +
-       "  \"ConnectionStrings\": {\n" +
-       $"    \"DefaultConnection\": \"{connectionString}\"\n" +
-       "  },\n" +
-       "  \"AllowedHosts\": \"*\"\n" +
-       "}";
     }
 }

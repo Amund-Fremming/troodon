@@ -1,5 +1,5 @@
-using troodon.Cli;
 using Spectre.Console;
+using troodon.Cli;
 
 namespace troodon.Core;
 
@@ -8,10 +8,8 @@ public class Orchestrator
     private string? ProjectName { get; set; }
     private int NumberOfEntities { get; set; }
     private IList<string>? Entities { get; set; }
-    private string? Database { get; set; }
-    private string? ConnectionString { get; set; }
 
-    private Crawler Crawler;
+    private readonly Crawler Crawler;
 
     public Orchestrator()
     {
@@ -26,13 +24,6 @@ public class Orchestrator
             ProjectName = Parser.GetProjectName();
             NumberOfEntities = Parser.GetNumberOfEntities();
             Entities = Parser.GetEntityNames(NumberOfEntities);
-            Database = AnsiConsole.Prompt(
-                new SelectionPrompt<string>()
-                .Title("What kind of [blue]Database[/]?")
-                .AddChoices("In memory", "I have a connection string"));
-
-            if (Database.Equals("I have a connection string"))
-                ConnectionString = AnsiConsole.Ask<string>("Connection string: ");
         }
         catch (Exception e)
         {
@@ -43,56 +34,33 @@ public class Orchestrator
     public void Build()
     {
         AnsiConsole.Status()
-            .Spinner(Spinner.Known.Arrow)
+            .Spinner(Spinner.Known.Arc)
             .SpinnerStyle(Style.Parse("blue"))
             .Start("Generating project", ctx =>
             {
                 Executor.BuildDotnetBase(ProjectName!);
 
-                ctx.Status("Restoring NuGets");
-                Executor.FetchEfNuGets(ProjectName!);
-
                 ctx.Status("Generating architecture");
                 Crawler.MoveIn(ProjectName!);
                 Crawler.CreateDir("Features");
 
+                BuildProgramCs();
                 BuildFeatures();
                 BuildDbContext();
-
-                if (Database!.Equals("In memory"))
-                {
-                    BuildProgramCs(true);
-                    ctx.Status("Building in memory db");
-                    Thread.Sleep(1000);
-                }
-
-                if (Database.Equals("I have a connection string"))
-                {
-                    BuildProgramCs(false);
-                    ctx.Status("Building db");
-                    Thread.Sleep(1000);
-                    BuildAppSettings();
-                    Executor.RunMigration(ProjectName!);
-                }
             });
 
         Executor.MoveProject(ProjectName!);
-    }
+        Executor.CreateSln(ProjectName!);
 
-    private void BuildAppSettings()
-    {
-        try
-        {
-            string skeleton = Generator.AppSettings(ConnectionString!);
-            string appsettings = "appsettings.json";
-            Crawler.DeleteFile(appsettings);
-            Crawler.CreateFile(appsettings);
-            Crawler.WriteToFile(appsettings, skeleton);
-        }
-        catch (Exception e)
-        {
-            throw new Exception("BuildAppSettings: " + e.Message);
-        }
+        var table = new Table();
+        table.AddColumn("[blue]Sucess! Now add a connection string, install and run EF Core migrations[/]");
+        table.AddRow("dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL");
+        table.AddRow("dotnet add package Microsoft.EntityFrameworkCore.Design");
+        table.AddRow("dotnet add package Swashbuckle.AspNetCore");
+        table.AddRow("");
+        table.AddRow("dotnet ef migrations add Init");
+        table.AddRow("dotnet ef database update");
+        AnsiConsole.Write(table);
     }
 
     private void BuildFeatures()
@@ -181,7 +149,7 @@ public class Orchestrator
         }
     }
 
-    private void BuildProgramCs(bool inMemory)
+    private void BuildProgramCs()
     {
         try
         {
@@ -190,7 +158,7 @@ public class Orchestrator
             Crawler.DeleteFile(file + ".cs");
             Crawler.CreateFile(file + ".cs");
 
-            var programSkeleton = Generator.Program(Entities!, ProjectName!, inMemory);
+            var programSkeleton = Generator.Program(Entities!, ProjectName!);
             Crawler.WriteToFile(file, programSkeleton);
         }
         catch (Exception e)

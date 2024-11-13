@@ -13,94 +13,51 @@ public class Crawler
 
     public void MoveIn(string dir)
     {
-        try
+        var newDir = Path.Combine(CurrentDir, dir);
+        if (Directory.Exists(newDir))
         {
-            var newDir = Path.Combine(CurrentDir, dir);
-            if (Directory.Exists(newDir))
-            {
-                CurrentDir = newDir;
-            }
-            else
-            {
-                AnsiConsole.MarkupLine($"[red]Directory '{newDir}' does not exist.[/]");
-            }
+            CurrentDir = newDir;
         }
-        catch (Exception e)
+        else
         {
-            throw new Exception("MoveIn: " + e.Message);
+            AnsiConsole.MarkupLine($"[red]Directory '{newDir}' does not exist.[/]");
         }
     }
 
     public void MoveOut()
     {
-        try
+        string? parentDirectory = Directory.GetParent(CurrentDir)?.FullName;
+        if (parentDirectory != null)
         {
-            string? parentDirectory = Directory.GetParent(CurrentDir)?.FullName;
-            if (parentDirectory != null)
-            {
-                CurrentDir = parentDirectory;
-            }
-            else
-            {
-                AnsiConsole.MarkupLine($"[red]Already at the root directory, can't move out further.[/]");
-            }
+            CurrentDir = parentDirectory;
+            return;
         }
-        catch (Exception e)
-        {
-            throw new Exception("MoveOut: " + e.Message);
-        }
+
+        AnsiConsole.MarkupLine($"[red]Already at the root directory, can't move out further.[/]");
     }
 
     public void CreateDir(string name)
     {
-        try
-        {
-            var newDir = Path.Combine(CurrentDir, name);
-            Directory.CreateDirectory(newDir);
-        }
-        catch (Exception e)
-        {
-            throw new Exception("CreateDir: " + e.Message);
-        }
+        var newDir = Path.Combine(CurrentDir, name);
+        Directory.CreateDirectory(newDir);
     }
 
     public void CreateFile(string name)
     {
-        try
-        {
-            var newFilePath = Path.Combine(CurrentDir, name);
-            File.Create(newFilePath).Dispose();
-        }
-        catch (Exception e)
-        {
-            throw new Exception("CreateFile: " + e.Message);
-        }
+        var newFilePath = Path.Combine(CurrentDir, name);
+        File.Create(newFilePath).Dispose();
     }
 
     public void DeleteFile(string name)
     {
-        try
-        {
-            var deleteFilePath = Path.Combine(CurrentDir, name);
-            File.Delete(deleteFilePath);
-        }
-        catch (Exception e)
-        {
-            throw new Exception("DeleteFile: " + e.Message);
-        }
+        var deleteFilePath = Path.Combine(CurrentDir, name);
+        File.Delete(deleteFilePath);
     }
 
     public void WriteToFile(string file, string content)
     {
-        try
-        {
-            file = file + ".cs";
-            var filePath = Path.Combine(CurrentDir, file);
-            File.WriteAllText(filePath, content);
-        }
-        catch (Exception e)
-        {
-            throw new Exception("WriteToFile: " + e.Message);
-        }
+        file = file + ".cs";
+        var filePath = Path.Combine(CurrentDir, file);
+        File.WriteAllText(filePath, content);
     }
 }

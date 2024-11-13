@@ -1,26 +1,31 @@
 {
   "format": 1,
   "restore": {
-    "/home/amund/Documents/Projects/troodon/troodon.csproj": {}
+    "C:\\Code\\PersonalSandbox\\troodon\\troodon.csproj": {}
   },
   "projects": {
-    "/home/amund/Documents/Projects/troodon/troodon.csproj": {
-      "version": "1.0.0",
+    "C:\\Code\\PersonalSandbox\\troodon\\troodon.csproj": {
+      "version": "1.0.4",
       "restore": {
-        "projectUniqueName": "/home/amund/Documents/Projects/troodon/troodon.csproj",
+        "projectUniqueName": "C:\\Code\\PersonalSandbox\\troodon\\troodon.csproj",
         "projectName": "troodon",
-        "projectPath": "/home/amund/Documents/Projects/troodon/troodon.csproj",
-        "packagesPath": "/home/amund/.nuget/packages/",
-        "outputPath": "/home/amund/Documents/Projects/troodon/obj/",
+        "projectPath": "C:\\Code\\PersonalSandbox\\troodon\\troodon.csproj",
+        "packagesPath": "C:\\Users\\amund.fremming\\.nuget\\packages\\",
+        "outputPath": "C:\\Code\\PersonalSandbox\\troodon\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/amund/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\amund.fremming\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "https://api.nuget.org/v3/index.json": {}
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {},
+          "https://nuget.epinova.no/nuget": {},
+          "https://nuget.optimizely.com/feed/packages.svc/": {}
         },
         "frameworks": {
           "net8.0": {
@@ -32,6 +37,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -73,7 +83,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/home/linuxbrew/.linuxbrew/Cellar/dotnet/8.0.4/libexec/sdk/8.0.104/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

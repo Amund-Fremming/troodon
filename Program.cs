@@ -5,7 +5,7 @@ namespace troodon;
 
 public class Program
 {
-    private static void Main(String[] args)
+    private static void Main(string[] args)
     {
         AnsiConsole.Write(
             new FigletText("troodon")

@@ -1,35 +1,35 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-	  <PackageId>troodon</PackageId>
-	  <Version>1.0.4</Version>
-	  <Authors>Amund Fremming</Authors>
-	  <Description>Fast, easy, and time-saving project builder for .NET web APIs.</Description>
-	  <PackageTags>dotnet, Web API, CRUD Operations, EF Core, Swagger, Automation</PackageTags>
-	  <RepositoryUrl>https://github.com/Amund-Fremming/troodon</RepositoryUrl>
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net8.0</TargetFramework>
+		<PackAsTool>true</PackAsTool>
+		<IsTool>true</IsTool>
+		<!-- Denne er viktig for tool! -->
+		<ToolCommandName>troodon</ToolCommandName>
 
-	  <IsTool>true</IsTool>
-	  <ToolCommandName>troodon-build</ToolCommandName>
-	  <PackageOutputPath>./nupkg</PackageOutputPath>
-	  <PackageReadmeFile>README.md</PackageReadmeFile>
-	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
-  </PropertyGroup>
+		<Title>troodon</Title>
+		<PackageId>troodon</PackageId>
+		<Version>1.1.0</Version>
+		<Authors>Amund Fremming</Authors>
+		<Description>Fast, easy, and time-saving project builder for .NET web APIs.</Description>
+		<PackageTags>dotnet, Web API, CRUD Operations, EF Core, Swagger, Automation</PackageTags>
+		<RepositoryUrl>https://github.com/Amund-Fremming/troodon</RepositoryUrl>
+		<PackageOutputPath>./nupkg</PackageOutputPath>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	</PropertyGroup>
 
 	<ItemGroup>
+		<None Include="DotnetToolSettings.xml" Pack="true" PackagePath="\" />
 		<None Include="README.md" Pack="true" PackagePath="\" />
 	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.10">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.8" />
-    <PackageReference Include="Spectre.Console" Version="0.49.1" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.9.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Spectre.Console" Version="0.49.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="nupkg\" />
+	</ItemGroup>
 </Project>

@@ -9,13 +9,9 @@
 - [Quick Start](#Quick-Start)
 - [License](#License)
 
-<br />
-
 ## Installation
 
 This is a [download .NET](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) project. .NET 8 or higher is required.
-
-<br />
 
 ## Features
 
@@ -27,8 +23,6 @@ This is a [download .NET](https://dotnet.microsoft.com/en-us/download/dotnet/8.0
   - Basic Crud operations implemented
   - Dependency injects lower level services
 
-<br />
-
 ### Quick Start
 
 Install the tool
@@ -38,5 +32,5 @@ dotnet tool install -g troodon
 
 Run the builder command and follow the instructions.
 ```sh
-troodon build
+troodon
 ```

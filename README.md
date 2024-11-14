@@ -11,7 +11,8 @@
 
 ## Installation
 
-This is a [download .NET](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) project. .NET 8 or higher is required.
+[download .NET](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) project. .NET 8 or higher is required.
+[download Node.js](https://nodejs.org/en/download/) project. Node.js 18 or higher is required.
 
 ## Features
 
@@ -25,6 +26,18 @@ This is a [download .NET](https://dotnet.microsoft.com/en-us/download/dotnet/8.0
 
 ### Quick Start
 
+#### Node and npm usage
+Install the tool
+```sh
+npm install -g troodon
+```
+
+Run the builder command and follow the instructions.
+```sh
+troodon build
+```
+
+#### Dotnet and NuGet usage
 Install the tool
 ```sh
 dotnet tool install -g troodon

@@ -1,0 +1,37 @@
+{
+  "name": "troodon",
+  "version": "1.1.5",
+  "description": "**Fast, easy, and time-saving project builder for .NET web APIs.** This tool helps developers quickly generate essential files for a clean, maintainable project structure with features like EF Core setup, Swagger integration, and automatic CRUD generation.",
+  "scripts": {
+    "build": "dotnet ./bin/Release/net8.0/troodon.dll",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "dotnet",
+    "web api",
+    "project builder",
+    "crud generator",
+    "ef core",
+    "swagger",
+    "dependency injection",
+    "dotnet tool",
+    "fast development",
+    "timesaving"
+  ],
+  "author": "Your Name",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Amund-Fremming/troodon"
+  },
+  "bugs": {
+    "url": "https://github.com/amund-fremming/troodon/issues"
+  },
+  "homepage": "https://github.com/Amund-Fremming/troodon",
+  "engines": {
+    "node": ">= 12.0.0"
+  },
+  "dependencies": {
+    "axios": "^0.27.2"
+  }
+}

@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyDescriptionAttribute("Fast, easy, and time-saving project builder for .NET web APIs.")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.1.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.1.0+f2b9884bbacddcb01099de0a9a28410d372cc6bf")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.1.0+ede4c6d05ca549f32b077b977968e51a9af3b506")]
 [assembly: System.Reflection.AssemblyProductAttribute("troodon")]
 [assembly: System.Reflection.AssemblyTitleAttribute("troodon")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.1.0.0")]
